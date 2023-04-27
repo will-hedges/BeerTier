@@ -10,7 +10,7 @@ GO
 CREATE TABLE [Beer] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [Name] varchar(55) NOT NULL,
-  [Content] varchar NOT NULL,
+  [Content] text NOT NULL,
   [ImageLocation] nvarchar(255),
   [BreweryId] int,
   [CategoryId] int,
@@ -45,7 +45,7 @@ GO
 CREATE TABLE [Comment] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [BeerId] int NOT NULL,
-  [Content] varchar NOT NULL,
+  [Content] text NOT NULL,
   [UserProfileId] int NOT NULL,
   [CreateDateTime] datetime NOT NULL
 )
