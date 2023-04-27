@@ -1,10 +1,19 @@
+USE [master]
+
+IF db_id('BeerTier') IS NULL
+    CREATE DATABASE [BeerTier]
+GO
+
+USE [BeerTier]
+GO
+
 CREATE TABLE [Beer] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [Name] varchar(55) NOT NULL,
   [Content] varchar NOT NULL,
   [ImageLocation] nvarchar(255),
   [BreweryId] int,
-  [CategoryId] int NOT NULL,
+  [CategoryId] int,
   [CreateDateTime] datetime NOT NULL,
   [UserProfileId] int NOT NULL
 )
@@ -48,9 +57,8 @@ CREATE TABLE [UserProfile] (
   [FirebaseUserId] nvarchar(255) NOT NULL,
   [FirstName] varchar(25) NOT NULL,
   [LastName] varchar(25) NOT NULL,
-  [Email] varchar(55) NOT NULL,
+  [Email] varchar(255) NOT NULL,
   [DisplayName] varchar(25) NOT NULL,
-  [UserTypeId] int NOT NULL,
   [ImageLocation] varchar(255),
   [CreateDateTime] datetime NOT NULL
 )
