@@ -25,6 +25,7 @@ namespace BeerTier.Models
 
         public Brewery Brewery { get; set; }
         public Category Category { get; set; }
+        public Style Style { get; set; }
         public UserProfile UserProfile { get; set; }
     }
 }
