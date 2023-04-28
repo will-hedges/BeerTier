@@ -61,6 +61,8 @@ CREATE TABLE [UserProfile] (
   [DisplayName] varchar(25) NOT NULL,
   [ImageLocation] varchar(255),
   [CreateDateTime] datetime NOT NULL
+
+  CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
 )
 GO
 

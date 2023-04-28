@@ -23,7 +23,7 @@ namespace BeerTier.Models
         [Required]
         public DateTime CreateDateTime { get; set; }
 
-        public Brewery Brewery { get; set }
+        public Brewery Brewery { get; set; }
         public Category Category { get; set; }
         public UserProfile UserProfile { get; set; }
     }
