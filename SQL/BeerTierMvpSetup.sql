@@ -54,7 +54,7 @@ GO
 CREATE TABLE [UserProfile] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [IsAdmin] bit NOT NULL,
-  [FirebaseUserId] nvarchar(255) NOT NULL,
+  [FirebaseUserId] varchar(28) NOT NULL,
   [FirstName] varchar(25) NOT NULL,
   [LastName] varchar(25) NOT NULL,
   [Email] varchar(255) NOT NULL,
