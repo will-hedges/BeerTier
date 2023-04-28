@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # user-specific Firebase Project ID
-*/appsettings.Local.json
+/appsettings.Local.json
 
 # User-specific files
 *.rsuser
