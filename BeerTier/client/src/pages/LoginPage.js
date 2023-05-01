@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Box, TextField } from "@mui/material";
-import { maxWidth } from "@mui/system";
+import { Box, Button, TextField } from "@mui/material";
+import { login } from "../modules/authManager";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -9,8 +9,11 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginSubmit = () => {
-    // TODO
+  const loginSubmit = (e) => {
+    e.preventDefault();
+    login(email, password)
+      .then(() => navigate("/"))
+      .catch(() => alert("Login Failed"));
   };
 
   return (
@@ -38,7 +41,13 @@ export default function LoginPage() {
               label="Password"
               id="password__textfield"
               onChange={(e) => setPassword(e.target.value)}
+              onSubmit={loginSubmit}
             />
+          </div>
+          <div>
+            <Button variant="contained" onClick={loginSubmit}>
+              Submit
+            </Button>
           </div>
         </fieldset>
       </form>
