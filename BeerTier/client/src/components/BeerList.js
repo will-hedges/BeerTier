@@ -10,7 +10,7 @@ export default function BeerList() {
   }, []);
 
   return (
-    <div>
+    <div key="beer__list">
       {beers.map((beer) => (
         <Beer beer={beer} key={beer.Id} activeLinks={true} />
       ))}
