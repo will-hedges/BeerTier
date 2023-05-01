@@ -1,6 +1,8 @@
-﻿using BeerTier.Repositories;
+﻿using BeerTier.Models;
+using BeerTier.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BeerTier.Controllers
 {
@@ -24,12 +26,29 @@ namespace BeerTier.Controllers
         [HttpGet("DoesUserExist/{firebaseUserId}")]
         public IActionResult DoesUserExist(string firebaseUserId)
         {
-            var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            UserProfile userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
             if (userProfile == null)
             {
                 return NotFound();
             }
             return Ok();
+        }
+
+        [HttpGet("Me")]
+        public IActionResult Me()
+        {
+            UserProfile userProfile = GetCurrentUserProfile();
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok(userProfile);
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }
