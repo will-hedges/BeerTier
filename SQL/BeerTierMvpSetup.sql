@@ -33,12 +33,16 @@ CREATE TABLE [Brewery] (
   [ImageLocation] varchar(255),
   [UserProfileId] int NOT NULL,
   [CreateDateTime] datetime NOT NULL
+
+  CONSTRAINT UQ_CategoryName UNIQUE([Name])
 )
 GO
 
 CREATE TABLE [Category] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [Name] varchar(25) NOT NULL
+
+  CONSTRAINT UQ_CategoryName UNIQUE([Name])
 )
 GO
 
@@ -63,12 +67,15 @@ CREATE TABLE [UserProfile] (
   [CreateDateTime] datetime NOT NULL
 
   CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
+  CONSTRAINT UQ_DisplayName UNIQUE(DisplayName)
 )
 GO
 
 CREATE TABLE [Style] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [Name] varchar(55) NOT NULL
+
+  CONSTRAINT UQ_StyleName UNIQUE([Name])
 )
 GO
 
