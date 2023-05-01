@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 
 export default function Beer({ beer }) {
   return (
-    <Card>
+    <Card className="beer__card">
       <CardContent>
         <Typography variant="h4">{beer.name}</Typography>
         {beer.styles.map((style) => {
