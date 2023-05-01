@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BeerTier.Models
@@ -25,7 +26,7 @@ namespace BeerTier.Models
 
         public Brewery Brewery { get; set; }
         public Category Category { get; set; }
-        public Style Style { get; set; }
+        public List<Style> Styles { get; set; }
         public UserProfile UserProfile { get; set; }
     }
 }

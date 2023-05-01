@@ -3,6 +3,7 @@ using BeerTier.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BeerTier.Repositories
 {
@@ -24,6 +25,7 @@ namespace BeerTier.Repositories
 	                        br.[Name] AS BreweryName, br.[Address],
 	                        up.DisplayName,
 	                        c.[Name] AS CategoryName,
+	                        bs.Id AS BeerStyleId, bs.BeerId,
 	                        s.[Name] AS StyleName
                         FROM Beer b
 	                        JOIN Brewery br ON br.Id = b.BreweryId
@@ -33,41 +35,51 @@ namespace BeerTier.Repositories
 	                        LEFT JOIN Style s ON s.Id = bs.StyleId
                         ";
 
-                    List<Beer> beers = new List<Beer>();
-
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
+                        List<Beer> beers = new List<Beer>();
                         while (reader.Read())
                         {
-                            Beer beer = new Beer()
+                            // don't want to make a new Beer obj for every "style" attached to a beer
+                            //  just add the style to the list
+                            int beerId = DbUtils.GetInt(reader, "BeerId");
+                            Beer beer = beers.FirstOrDefault(b => b.Id == beerId);
+                            if (beer == null)
                             {
-                                Id = DbUtils.GetInt(reader, "Id"),
-                                Name = DbUtils.GetString(reader, "BeerName"),
-                                Content = DbUtils.GetString(reader, "Content"),
-                                ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                                CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                                Brewery = new Brewery()
+                                beer = new Beer()
                                 {
-                                    Name = DbUtils.GetString(reader, "BreweryName"),
-                                    Address = DbUtils.GetString(reader, "Address")
-                                },
-                                UserProfile = new UserProfile()
-                                {
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName")
-                                },
-                                Category = new Category()
-                                {
-                                    Name = DbUtils.GetString(reader, "CategoryName")
-                                },
-                                Style = new Style()
-                                {
-                                    Name = DbUtils.GetString(reader, "StyleName")
-                                }
-                            };
-                            beers.Add(beer);
+                                    Id = DbUtils.GetInt(reader, "Id"),
+                                    Name = DbUtils.GetString(reader, "BeerName"),
+                                    Content = DbUtils.GetString(reader, "Content"),
+                                    ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                    CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                                    Brewery = new Brewery()
+                                    {
+                                        Name = DbUtils.GetString(reader, "BreweryName"),
+                                        Address = DbUtils.GetString(reader, "Address")
+                                    },
+                                    UserProfile = new UserProfile()
+                                    {
+                                        DisplayName = DbUtils.GetString(reader, "DisplayName")
+                                    },
+                                    Category = new Category()
+                                    {
+                                        Name = DbUtils.GetString(reader, "CategoryName")
+                                    },
+                                    Styles = new List<Style>()
+                                };
+                                beers.Add(beer);
+                            }
+
+                            if (DbUtils.IsNotDbNull(reader, "BeerStyleId"))
+                            {
+                                beer.Styles.Add(
+                                    new Style() { Name = DbUtils.GetString(reader, "StyleName") }
+                                );
+                            }
                         }
+                        return beers;
                     }
-                    return beers;
                 }
             }
         }

@@ -9,7 +9,7 @@ VALUES ('Craft'), ('Domestic'), ('Traditional')
 
 -- Seed data for Style table
 INSERT INTO [Style] ([Name])
-VALUES ('IPA'), ('Lager'), ('Stout'), ('Porter'), ('Belgian'), ('Wheat'), ('Sour')
+VALUES ('IPA'), ('Lager'), ('Stout'), ('Porter'), ('Belgian'), ('Wheat'), ('Sour'), ('West Coast IPA'), ('Hazy IPA'), ('Festbier'), ('Pilsner')
 
 -- Seed data for UserProfile table
 INSERT INTO [UserProfile] ([IsAdmin], [FirebaseUserId], [FirstName], [LastName], [Email], [DisplayName], [CreateDateTime])
@@ -31,7 +31,7 @@ VALUES ('Sierra Nevada Pale Ale', 'The nearest Hefeweizen learns a hard lesson f
 
 -- Seed data for BeerStyle table
 INSERT INTO [BeerStyle] ([BeerId], [StyleId])
-VALUES (1, 1), (2, 1), (3, 1)
+VALUES (1, 1), (2, 1), (3, 1), (1, 8), (2, 9), (3, 10)
 
 -- Seed data for Comment table
 INSERT INTO [Comment] ([BeerId], [Content], [UserProfileId], [CreateDateTime])
