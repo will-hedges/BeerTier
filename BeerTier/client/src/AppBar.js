@@ -1,17 +1,18 @@
 import * as React from "react";
+import BeerIcon from "@mui/icons-material/SportsBar";
 import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 
 const pages = ["Beers", "New Beer", "My Beers"];
 // TODO 'Login' if not logged in
@@ -48,21 +49,19 @@ function ResponsiveAppBar() {
     );
   };
 
-  const HamburgerMenuLink = ({ text, href }) => {
+  function HamburgerMenuLink({ text, href }) {
     return (
-      <MenuItem onClick={handleCloseNavMenu} href={href}>
-        <Typography href={href} textAlign="center">
-          {text}
-        </Typography>
+      <MenuItem component={Link} to={href} onClick={handleCloseNavMenu}>
+        <Typography textAlign="center">{text}</Typography>
       </MenuItem>
     );
-  };
+  }
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <BeerIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -73,12 +72,12 @@ function ResponsiveAppBar() {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            LOGO
+            BeerTier
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -115,7 +114,7 @@ function ResponsiveAppBar() {
               <HamburgerMenuLink text="New Beer" href="/beer/new" />
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <BeerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -140,8 +139,9 @@ function ResponsiveAppBar() {
             <NavLinkButton text="New Beer" href="/beer/new" />
           </Box>
 
+          {/* TODO this usermenu should take props passed to AppBar */}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="User options">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>

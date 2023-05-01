@@ -10,6 +10,8 @@ export default function ApplicationViews() {
         <Route path="/">
           <Route index element={<Hello />} />
           <Route path="beer" index element={<BeerList />} />
+          <Route path="/beer/me" element={<Hello />} />
+          <Route path="/beer/new" element={<Hello />} />
         </Route>
       </Routes>
     </main>
