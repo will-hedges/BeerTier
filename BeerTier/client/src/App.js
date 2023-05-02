@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import { Box, CircularProgress } from "@mui/material";
+
 import logo from "./logo.svg";
 import "./App.css";
 import AppBar from "./AppBar";
@@ -27,7 +29,11 @@ function App() {
   //  Then it will be set to true or false by the "onLoginStatusChange" function
   if (isLoggedIn === null) {
     // Until we know whether or not the user is logged in or not, just show a spinner
-    return <span>waiting...</span>;
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+      </Box>
+    );
   }
   return (
     <Router>
