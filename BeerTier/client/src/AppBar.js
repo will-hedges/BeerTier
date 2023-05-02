@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import {
@@ -20,7 +20,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import { logout } from "./modules/authManager";
 
-function ResponsiveAppBar({ userProfile }) {
+function ResponsiveAppBar({ isLoggedIn, userProfile }) {
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -39,6 +39,12 @@ function ResponsiveAppBar({ userProfile }) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  // make sure that on login change, the menus are both CLOSED
+  useEffect(() => {
+    setAnchorElNav(null);
+    setAnchorElUser(null);
+  }, [isLoggedIn]);
 
   const NavLinkButton = ({ text, href }) => {
     return (
@@ -171,7 +177,12 @@ function ResponsiveAppBar({ userProfile }) {
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-                <MenuItem onClick={logout}>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                    navigate("/login");
+                  }}
+                >
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               </Menu>
