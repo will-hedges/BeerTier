@@ -145,7 +145,10 @@ function ResponsiveAppBar({ userProfile }) {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="User options">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt={userProfile.displayName}
+                    src={userProfile.imageLocation}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
