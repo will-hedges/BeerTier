@@ -8,7 +8,6 @@ import {
   Button,
   Container,
   IconButton,
-  Link,
   Menu,
   MenuItem,
   Toolbar,
@@ -55,7 +54,7 @@ function ResponsiveAppBar({ userProfile }) {
 
   function HamburgerMenuLink({ text, href }) {
     return (
-      <MenuItem component={Link} to={href} onClick={handleCloseNavMenu}>
+      <MenuItem component={"a"} href={href} onClick={handleCloseNavMenu}>
         <Typography textAlign="center">{text}</Typography>
       </MenuItem>
     );
