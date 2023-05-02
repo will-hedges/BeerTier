@@ -14,3 +14,18 @@ export const getAllBeers = () => {
     }
   });
 };
+
+export const getBeerById = (id) => {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw new Error("An unknown error occurred while trying to get a beer.");
+    }
+  });
+};
