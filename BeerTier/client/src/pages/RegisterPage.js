@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
-import { display } from "@mui/system";
+import { useNavigate } from "react-router";
+import { Box, Button, Link, TextField } from "@mui/material";
+
+import { register } from "../modules/authManager";
 
 export default function RegisterPage() {
-  // states for all login input
+  const navigate = useNavigate();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,8 +14,17 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // a register sumbit callback
-  const registerSubmit = (e) => {};
+  const registerSubmit = (e) => {
+    e.preventDefault();
+    const userProfile = {
+      firstName,
+      lastName,
+      email,
+      displayName,
+    };
+    // TODO add error handling for bad email input here?
+    register(userProfile, password).then(() => navigate("/"));
+  };
 
   return (
     <Box
@@ -29,6 +41,11 @@ export default function RegisterPage() {
           <div>
             <h2>Register</h2>
           </div>
+          <Box sx={{ my: "1rem" }}>
+            <Link href="/login" underline="hover">
+              <em>Already a user? Login here!</em>
+            </Link>
+          </Box>
           <div>
             <TextField
               required
@@ -56,6 +73,7 @@ export default function RegisterPage() {
           <div>
             <TextField
               required
+              type="email"
               label="Email"
               onChange={(e) => setEmail(e.target.value)}
               sx={{ mb: "1rem" }}

@@ -3,6 +3,7 @@ using BeerTier.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 
 namespace BeerTier.Controllers
@@ -44,6 +45,23 @@ namespace BeerTier.Controllers
                 return NotFound();
             }
             return Ok(userProfile);
+        }
+
+        [HttpPost]
+        public IActionResult Post(UserProfile userProfile)
+        {
+            userProfile.IsAdmin = false;
+            // TODO implement ImageLocation for avatars
+            userProfile.ImageLocation = null;
+            userProfile.CreateDateTime = DateTime.Now;
+
+            _userProfileRepository.Add(userProfile);
+
+            return CreatedAtAction(
+                nameof(GetUserProfile),
+                new { firebaseUserId = userProfile.FirebaseUserId },
+                userProfile
+            );
         }
 
         private UserProfile GetCurrentUserProfile()

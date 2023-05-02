@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Link, TextField } from "@mui/material";
 import { login } from "../modules/authManager";
 
 export default function LoginPage() {
@@ -47,6 +47,11 @@ export default function LoginPage() {
               Submit
             </Button>
           </div>
+          <Box sx={{ my: "1rem" }}>
+            <Link href="/register" underline="hover">
+              <em>New user? Register here!</em>
+            </Link>
+          </Box>
         </fieldset>
       </form>
     </Box>
