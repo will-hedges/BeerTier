@@ -20,7 +20,7 @@ export default function LoginPage() {
     <Box
       sx={{ mx: "auto", my: "2rem", textAlign: "center", maxWidth: "500px" }}
     >
-      <form>
+      <form onSubmit={loginSubmit}>
         <fieldset>
           <div>
             <h2>Login</h2>
@@ -29,7 +29,6 @@ export default function LoginPage() {
             <TextField
               required
               label="Email"
-              id="email__textfield"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -39,7 +38,6 @@ export default function LoginPage() {
               required
               type="password"
               label="Password"
-              id="password__textfield"
               onChange={(e) => setPassword(e.target.value)}
               onSubmit={loginSubmit}
             />
