@@ -45,7 +45,7 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <Button variant="contained" onClick={loginSubmit}>
+            <Button variant="contained" type="submit" onClick={loginSubmit}>
               Submit
             </Button>
           </div>
