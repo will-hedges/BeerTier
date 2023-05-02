@@ -1,29 +1,31 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Link,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+  Tooltip,
+} from "@mui/material";
+
 import BeerIcon from "@mui/icons-material/SportsBar";
-import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
 
 import { logout } from "./modules/authManager";
 
 function ResponsiveAppBar({ userProfile }) {
   const navigate = useNavigate();
 
-  // this is all MUI handling...
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
