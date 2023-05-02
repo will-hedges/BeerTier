@@ -67,6 +67,7 @@ CREATE TABLE [UserProfile] (
   [CreateDateTime] datetime NOT NULL
 
   CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
+  CONSTRAINT UQ_Email UNIQUE(Email)
   CONSTRAINT UQ_DisplayName UNIQUE(DisplayName)
 )
 GO
