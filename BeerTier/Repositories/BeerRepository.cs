@@ -97,16 +97,18 @@ namespace BeerTier.Repositories
                 {
                     cmd.CommandText =
                         @"
-                        SELECT b.[Name], b.Content AS BeerContent, b.ImageLocation, b.CreateDateTime AS BeerCreateDateTime,
+                        SELECT b.[Name] AS BeerName, b.BreweryId, b.Content AS BeerContent, b.ImageLocation, b.CreateDateTime AS BeerCreateDateTime, b.UserProfileId,
 		                    br.[Name] AS BreweryName,
-		                    cat.[Name] AS CategoryName,
 		                    bup.DisplayName AS BeerUserProfileDisplayName,
+                            bs.Id AS BeerStyleId, bs.BeerId,
+	                        s.Id AS StyleId, s.[Name] AS StyleName,
 		                    com.Id AS CommentId, com.Content AS CommentContent, com.CreateDateTime AS CommentCreateDateTime,
 		                    cup.DisplayName AS CommentUserProfileDisplayName
                         FROM Beer b
 	                        JOIN Brewery br ON br.Id = b.BreweryId
-	                        LEFT JOIN Category cat on cat.Id = b.CategoryId
 	                        LEFT JOIN UserProfile bup ON bup.Id = b.UserProfileId
+                            LEFT JOIN BeerStyle bs ON bs.BeerId = b.Id
+	                        LEFT JOIN Style s ON s.Id = bs.StyleId
 	                        LEFT JOIN Comment com ON com.BeerId = b.Id
 	                        LEFT JOIN UserProfile cup ON cup.Id = com.UserProfileId
                         WHERE b.Id = @id
@@ -118,13 +120,14 @@ namespace BeerTier.Repositories
                         Beer beer = null;
                         while (reader.Read())
                         {
-                            // don't re-create the beer for multiple comments
+                            // don't re-create the beer for multiple comments, styles
                             // just add them to their list
                             if (beer == null)
                             {
                                 beer = new Beer()
                                 {
                                     Id = id,
+                                    Name = DbUtils.GetString(reader, "BeerName"),
                                     Content = DbUtils.GetString(reader, "BeerContent"),
                                     ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                                     CreateDateTime = DbUtils.GetDateTime(
@@ -133,23 +136,40 @@ namespace BeerTier.Repositories
                                     ),
                                     Brewery = new Brewery()
                                     {
+                                        Id = DbUtils.GetInt(reader, "BreweryId"),
                                         Name = DbUtils.GetString(reader, "BreweryName")
-                                    },
-                                    Category = new Category()
-                                    {
-                                        Name = DbUtils.GetString(reader, "CategoryName")
                                     },
                                     UserProfile = new UserProfile()
                                     {
+                                        Id = DbUtils.GetInt(reader, "UserProfileId"),
                                         DisplayName = DbUtils.GetString(
                                             reader,
                                             "BeerUserProfileDisplayName"
                                         )
                                     },
+                                    Styles = new List<Style>(),
                                     Comments = new List<Comment>()
                                 };
                             }
-                            if (DbUtils.IsNotDbNull(reader, "CommentId"))
+
+                            // don't want to make a new style obj for every style attached to a beer
+                            //  just add the style to the list
+                            int styleId = DbUtils.GetInt(reader, "StyleId");
+                            Style style = beer.Styles.FirstOrDefault(s => s.Id == styleId);
+                            if (style == null)
+                            {
+                                beer.Styles.Add(
+                                    new Style
+                                    {
+                                        Id = DbUtils.GetInt(reader, "StyleId"),
+                                        Name = DbUtils.GetString(reader, "StyleName")
+                                    }
+                                );
+                            }
+                            // same with comments TODO this is not yet working!!!
+                            int commentId = DbUtils.GetInt(reader, "CommentId");
+                            Comment comment = beer.Comments.FirstOrDefault(c => c.Id == commentId);
+                            if (comment == null)
                             {
                                 beer.Comments.Add(
                                     new Comment()
