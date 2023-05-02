@@ -28,5 +28,6 @@ namespace BeerTier.Models
         public Category Category { get; set; }
         public List<Style> Styles { get; set; }
         public UserProfile UserProfile { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BeerTier.Repositories;
+﻿using BeerTier.Models;
+using BeerTier.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,17 @@ namespace BeerTier.Controllers
         public IActionResult Get()
         {
             return Ok(_beerRepository.GetAll());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            Beer beer = _beerRepository.GetById(id);
+            if (beer == null)
+            {
+                return NotFound();
+            }
+            return Ok(beer);
         }
     }
 }

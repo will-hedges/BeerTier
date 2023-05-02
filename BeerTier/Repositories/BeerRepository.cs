@@ -87,5 +87,93 @@ namespace BeerTier.Repositories
                 }
             }
         }
+
+        public Beer GetById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"
+                        SELECT b.[Name], b.Content AS BeerContent, b.ImageLocation, b.CreateDateTime AS BeerCreateDateTime,
+		                    br.[Name] AS BreweryName,
+		                    cat.[Name] AS CategoryName,
+		                    bup.DisplayName AS BeerUserProfileDisplayName,
+		                    com.Id AS CommentId, com.Content AS CommentContent, com.CreateDateTime AS CommentCreateDateTime,
+		                    cup.DisplayName AS CommentUserProfileDisplayName
+                        FROM Beer b
+	                        JOIN Brewery br ON br.Id = b.BreweryId
+	                        LEFT JOIN Category cat on cat.Id = b.CategoryId
+	                        LEFT JOIN UserProfile bup ON bup.Id = b.UserProfileId
+	                        LEFT JOIN Comment com ON com.BeerId = b.Id
+	                        LEFT JOIN UserProfile cup ON cup.Id = com.UserProfileId
+                        WHERE b.Id = @id
+                        ";
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        Beer beer = null;
+                        while (reader.Read())
+                        {
+                            // don't re-create the beer for multiple comments
+                            // just add them to their list
+                            if (beer == null)
+                            {
+                                beer = new Beer()
+                                {
+                                    Id = id,
+                                    Content = DbUtils.GetString(reader, "BeerContent"),
+                                    ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                    CreateDateTime = DbUtils.GetDateTime(
+                                        reader,
+                                        "BeerCreateDateTime"
+                                    ),
+                                    Brewery = new Brewery()
+                                    {
+                                        Name = DbUtils.GetString(reader, "BreweryName")
+                                    },
+                                    Category = new Category()
+                                    {
+                                        Name = DbUtils.GetString(reader, "CategoryName")
+                                    },
+                                    UserProfile = new UserProfile()
+                                    {
+                                        DisplayName = DbUtils.GetString(
+                                            reader,
+                                            "BeerUserProfileDisplayName"
+                                        )
+                                    },
+                                    Comments = new List<Comment>()
+                                };
+                            }
+                            if (DbUtils.IsNotDbNull(reader, "CommentId"))
+                            {
+                                beer.Comments.Add(
+                                    new Comment()
+                                    {
+                                        Content = DbUtils.GetString(reader, "CommentContent"),
+                                        CreateDateTime = DbUtils.GetDateTime(
+                                            reader,
+                                            "CommentCreateDateTime"
+                                        ),
+                                        UserProfile = new UserProfile()
+                                        {
+                                            DisplayName = DbUtils.GetString(
+                                                reader,
+                                                "CommentUserProfileDisplayName"
+                                            )
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                        return beer;
+                    }
+                }
+            }
+        }
     }
 }
