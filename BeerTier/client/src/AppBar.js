@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useNavigate } from "react-router";
+
 import BeerIcon from "@mui/icons-material/SportsBar";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -14,11 +16,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 
-const pages = ["Beers", "New Beer", "My Beers"];
-// TODO 'Login' if not logged in
-const settings = ["Profile", "Logout"];
+import { logout } from "./modules/authManager";
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ userProfile }) {
+  const navigate = useNavigate();
+
   // this is all MUI handling...
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -139,36 +141,47 @@ function ResponsiveAppBar() {
             <NavLinkButton text="New Beer" href="/beer/new" />
           </Box>
 
-          {/* TODO this usermenu should take props passed to AppBar */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="User options">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+          {userProfile ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="User options">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                <MenuItem onClick={logout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

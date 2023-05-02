@@ -31,7 +31,7 @@ function App() {
   }
   return (
     <Router>
-      <AppBar />
+      <AppBar userProfile={userProfile} />
       <ApplicationViews />
     </Router>
   );
