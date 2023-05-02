@@ -455,3 +455,7 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/BeerTier/appsettings.Local.json
+/BeerTier/appsettings.Development.json
+/BeerTier/appsettings.json
+/SQL/BeerTierUpdateFirebaseUserIds.sql

@@ -1,27 +1,31 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Link,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+  Tooltip,
+} from "@mui/material";
+
 import BeerIcon from "@mui/icons-material/SportsBar";
-import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
 
-const pages = ["Beers", "New Beer", "My Beers"];
-// TODO 'Login' if not logged in
-const settings = ["Profile", "Logout"];
+import { logout } from "./modules/authManager";
 
-function ResponsiveAppBar() {
-  // this is all MUI handling...
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+function ResponsiveAppBar({ userProfile }) {
+  const navigate = useNavigate();
+
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -126,12 +130,12 @@ function ResponsiveAppBar() {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            LOGO
+            BeerTier
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <NavLinkButton text="Beers" href="/beer" />
@@ -139,36 +143,50 @@ function ResponsiveAppBar() {
             <NavLinkButton text="New Beer" href="/beer/new" />
           </Box>
 
-          {/* TODO this usermenu should take props passed to AppBar */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="User options">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+          {userProfile ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="User options">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt={userProfile.displayName}
+                    src={userProfile.imageLocation}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                <MenuItem onClick={logout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

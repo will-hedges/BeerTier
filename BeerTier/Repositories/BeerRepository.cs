@@ -26,7 +26,7 @@ namespace BeerTier.Repositories
 	                        up.DisplayName,
 	                        c.[Name] AS CategoryName,
 	                        bs.Id AS BeerStyleId, bs.BeerId,
-	                        s.[Name] AS StyleName
+	                        s.Id AS StyleId, s.[Name] AS StyleName
                         FROM Beer b
 	                        JOIN Brewery br ON br.Id = b.BreweryId
 	                        LEFT JOIN UserProfile up ON up.Id = b.UserProfileId
@@ -74,7 +74,11 @@ namespace BeerTier.Repositories
                             if (DbUtils.IsNotDbNull(reader, "BeerStyleId"))
                             {
                                 beer.Styles.Add(
-                                    new Style() { Name = DbUtils.GetString(reader, "StyleName") }
+                                    new Style()
+                                    {
+                                        Id = DbUtils.GetInt(reader, "StyleId"),
+                                        Name = DbUtils.GetString(reader, "StyleName")
+                                    }
                                 );
                             }
                         }
