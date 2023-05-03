@@ -175,6 +175,7 @@ namespace BeerTier.Repositories
                                 beer.Comments.Add(
                                     new Comment()
                                     {
+                                        Id = DbUtils.GetInt(reader, "CommentId"),
                                         Content = DbUtils.GetString(reader, "CommentContent"),
                                         CreateDateTime = DbUtils.GetDateTime(
                                             reader,
