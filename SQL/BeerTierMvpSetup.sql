@@ -1,7 +1,7 @@
 USE [master]
 
-IF db_id('BeerTier') IS NULL
-    CREATE DATABASE [BeerTier]
+IF db_id('BeerTier') IS NULl
+  CREATE DATABASE [BeerTier]
 GO
 
 USE [BeerTier]
@@ -9,11 +9,10 @@ GO
 
 CREATE TABLE [Beer] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [Name] varchar(55) NOT NULL,
-  [Content] text NOT NULL,
+  [Name] varchar(55) UNIQUE NOT NULL,
+  [Content] text,
   [ImageLocation] nvarchar(255),
   [BreweryId] int,
-  [CategoryId] int,
   [CreateDateTime] datetime NOT NULL,
   [UserProfileId] int NOT NULL
 )
@@ -28,21 +27,11 @@ GO
 
 CREATE TABLE [Brewery] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [Name] varchar(55) NOT NULL,
+  [Name] varchar(55) UNIQUE NOT NULL,
   [Address] varchar(255) NOT NULL,
   [ImageLocation] varchar(255),
   [UserProfileId] int NOT NULL,
   [CreateDateTime] datetime NOT NULL
-
-  CONSTRAINT UQ_CategoryName UNIQUE([Name])
-)
-GO
-
-CREATE TABLE [Category] (
-  [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [Name] varchar(25) NOT NULL
-
-  CONSTRAINT UQ_CategoryName UNIQUE([Name])
 )
 GO
 
@@ -58,47 +47,26 @@ GO
 CREATE TABLE [UserProfile] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [IsAdmin] bit NOT NULL,
-  [FirebaseUserId] varchar(28) NOT NULL,
+  [FirebaseUserId] nvarchar(255) UNIQUE NOT NULL,
   [FirstName] varchar(25) NOT NULL,
   [LastName] varchar(25) NOT NULL,
   [Email] varchar(255) NOT NULL,
-  [DisplayName] varchar(25) NOT NULL,
+  [DisplayName] varchar(25) UNIQUE NOT NULL,
   [ImageLocation] varchar(255),
   [CreateDateTime] datetime NOT NULL
-
-  CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
-  CONSTRAINT UQ_Email UNIQUE(Email)
-  CONSTRAINT UQ_DisplayName UNIQUE(DisplayName)
 )
 GO
 
 CREATE TABLE [Style] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [Name] varchar(55) NOT NULL
-
-  CONSTRAINT UQ_StyleName UNIQUE([Name])
+  [Name] varchar(55) UNIQUE NOT NULL
 )
-GO
-
-EXEC sp_addextendedproperty
-@name = N'Column_Description',
-@value = '
-    1: Craft
-    2: Traditional
-    3: Domestic
-  ',
-@level0type = N'Schema', @level0name = 'dbo',
-@level1type = N'Table',  @level1name = 'Category',
-@level2type = N'Column', @level2name = 'Name';
 GO
 
 ALTER TABLE [BeerStyle] ADD FOREIGN KEY ([BeerId]) REFERENCES [Beer] ([Id])
 GO
 
 ALTER TABLE [BeerStyle] ADD FOREIGN KEY ([StyleId]) REFERENCES [Style] ([Id]) ON DELETE CASCADE
-GO
-
-ALTER TABLE [Beer] ADD FOREIGN KEY ([CategoryId]) REFERENCES [Category] ([Id]) ON DELETE SET NULL
 GO
 
 ALTER TABLE [Beer] ADD FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
