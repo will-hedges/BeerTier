@@ -8,7 +8,7 @@ import Comment from "../components/Comment";
 import StyleLink from "../components/StyleLink";
 import UserProfileLink from "../components/UserProfileLink";
 
-import { getBeerById } from "../modules/beerManager";
+import { getById } from "../modules/resourceManager";
 
 export default function BeerDetailsPage() {
   const [beer, setBeer] = useState(null);
@@ -17,7 +17,7 @@ export default function BeerDetailsPage() {
   id = parseInt(id);
 
   useEffect(() => {
-    getBeerById(id).then(setBeer);
+    getById("beer", id).then(setBeer);
   }, [id]);
 
   if (!beer) {

@@ -32,6 +32,7 @@ namespace BeerTier
             // register repositories here
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IBeerRepository, BeerRepository>();
+            services.AddTransient<IBreweryRepository, BreweryRepository>();
 
             // firebase auth config
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");

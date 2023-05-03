@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BeerTier.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeerTier.Controllers
@@ -8,5 +9,16 @@ namespace BeerTier.Controllers
     public class BreweryController : ControllerBase
     {
         private readonly IBreweryRepository _breweryRepository;
+
+        public BreweryController(IBreweryRepository breweryRepository)
+        {
+            _breweryRepository = breweryRepository;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_breweryRepository.GetAll());
+        }
     }
 }
