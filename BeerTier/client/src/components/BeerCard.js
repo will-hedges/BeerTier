@@ -13,11 +13,7 @@ import UserProfileLink from "./UserProfileLink";
 
 export default function Beer({ beer }) {
   return (
-    <Card
-      className="beer__card"
-      key={`beer-${beer.id}`}
-      sx={{ mx: "1rem", maxWidth: "500px" }}
-    >
+    <Card className="beer__card" sx={{ mx: "1rem", maxWidth: "500px" }}>
       <CardActionArea href={`beer/${beer.id}`}>
         <CardContent>
           <Typography variant="h4">{beer.name}</Typography>
@@ -27,7 +23,7 @@ export default function Beer({ beer }) {
               return (
                 <StyleLink
                   style={style}
-                  key={`beer-${beer.id}--style-${style.name}`}
+                  key={`beer--${beer.id}-style--${style.name}`}
                 />
               );
             })}

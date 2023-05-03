@@ -27,7 +27,7 @@ export default function BeerDetailsPage() {
   return (
     <Box sx={{ px: "2rem", py: "2rem" }}>
       {beer.styles.map((style) => (
-        <StyleLink style={style} />
+        <StyleLink key={`beer-${beer.id}--style-${style.id}`} style={style} />
       ))}
       <Typography variant="h3">{beer.name}</Typography>
       <BreweryLink brewery={beer.brewery} />

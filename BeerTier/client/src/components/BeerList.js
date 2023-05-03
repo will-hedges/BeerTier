@@ -16,7 +16,7 @@ export default function BeerList() {
       sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
     >
       {beers.map((beer) => (
-        <BeerCard beer={beer} key={beer.Id} activeLinks={true} />
+        <BeerCard beer={beer} key={`beer--${beer.id}`} activeLinks={true} />
       ))}
     </Box>
   );
