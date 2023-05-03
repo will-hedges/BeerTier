@@ -25,13 +25,11 @@ namespace BeerTier.Repositories
                                 b.BreweryId, b.UserProfileId,
 	                        br.[Name] AS BreweryName, br.[Address],
 	                        up.DisplayName, up.IsAdmin,
-	                        c.[Name] AS CategoryName,
 	                        bs.Id AS BeerStyleId, bs.BeerId,
 	                        s.Id AS StyleId, s.[Name] AS StyleName
                         FROM Beer b
 	                        JOIN Brewery br ON br.Id = b.BreweryId
 	                        LEFT JOIN UserProfile up ON up.Id = b.UserProfileId
-	                        LEFT JOIN Category c ON c.Id = b.CategoryId
 	                        LEFT JOIN BeerStyle bs ON bs.BeerId = b.Id
 	                        LEFT JOIN Style s ON s.Id = bs.StyleId
                         ";
@@ -65,10 +63,6 @@ namespace BeerTier.Repositories
                                         Id = DbUtils.GetInt(reader, "UserProfileId"),
                                         IsAdmin = DbUtils.GetBool(reader, "IsAdmin"),
                                         DisplayName = DbUtils.GetString(reader, "DisplayName")
-                                    },
-                                    Category = new Category()
-                                    {
-                                        Name = DbUtils.GetString(reader, "CategoryName")
                                     },
                                     Styles = new List<Style>()
                                 };
