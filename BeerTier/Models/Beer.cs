@@ -19,13 +19,14 @@ namespace BeerTier.Models
 
         [Required]
         public int BreweryId { get; set; }
-        public int CategoryId { get; set; }
 
         [Required]
         public DateTime CreateDateTime { get; set; }
 
+        [Required]
+        public int UserProfileId { get; set; }
+
         public Brewery Brewery { get; set; }
-        public Category Category { get; set; }
         public List<Style> Styles { get; set; }
         public UserProfile UserProfile { get; set; }
         public List<Comment> Comments { get; set; }

@@ -167,7 +167,7 @@ namespace BeerTier.Repositories
                                     }
                                 );
                             }
-                            // same with comments TODO FIXME this is not yet working!!!
+                            // same with comments
                             int commentId = DbUtils.GetInt(reader, "CommentId");
                             Comment comment = beer.Comments.FirstOrDefault(c => c.Id == commentId);
                             if (comment == null)
@@ -196,6 +196,32 @@ namespace BeerTier.Repositories
                         }
                         return beer;
                     }
+                }
+            }
+        }
+
+        public void Add(Beer beer)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"
+                        INSERT INTO Beer ([Name], Content, ImageLocation, BreweryId, CreateDateTime)
+                        OUTPUT INSERTED.ID
+                        VALUES
+                            (@Name, @Content, @ImageLocation, @BreweryId, @CreateDateTime)
+                        ";
+
+                    DbUtils.AddParameter(cmd, "@Name", beer.Name);
+                    DbUtils.AddParameter(cmd, "@Content", beer.Content);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", beer.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@BreweryId", beer.BreweryId);
+                    DbUtils.AddParameter(cmd, "@CreateDateTime", beer.CreateDateTime);
+
+                    beer.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
