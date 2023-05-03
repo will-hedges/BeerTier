@@ -5,7 +5,6 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
-  Typography,
 } from "@mui/material";
 import { getAll } from "../modules/resourceManager";
 
@@ -31,8 +30,8 @@ export default function StyleCheckboxes({ checkedStyles, setCheckedStyles }) {
   }, []);
 
   return (
-    <Box sx={{ my: "0.5rem" }}>
-      <FormLabel>Styles:</FormLabel>
+    <Box sx={{ my: "1rem" }}>
+      <FormLabel>Style(s):</FormLabel>
       <FormGroup>
         {styles.map((style) => (
           <FormControlLabel

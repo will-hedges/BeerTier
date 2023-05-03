@@ -49,6 +49,7 @@ export default function NewBeerPage({ beer }) {
               required
               label="Beer name"
               onChange={(e) => setName(e.target.value)}
+              sx={{ my: "1rem" }}
             />
           </div>
           <div>
@@ -69,10 +70,17 @@ export default function NewBeerPage({ beer }) {
               placeholder="Did you like or dislike this beer? Would you recommend it to others?"
               multiline
               rows={5}
+              sx={{ my: "1rem" }}
+              onChange={(e) => setContent(e.target.value)}
             />
           </div>
           <div>
-            <TextField label="Image URL" placeholder="http://example.com" />
+            <TextField
+              label="Image URL"
+              placeholder="http://example.com"
+              sx={{ my: "1rem" }}
+              onChange={(e) => setImageLocation(e.target.value)}
+            />
           </div>
           <div>
             <Button variant="contained" type="submit" onClick={submitForm}>
