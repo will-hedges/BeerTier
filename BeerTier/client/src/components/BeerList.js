@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Beer from "./Beer";
+import Box from "@mui/material/Box";
+import BeerCard from "./BeerCard";
 import { getAllBeers } from "../modules/beerManager";
 
 export default function BeerList() {
@@ -10,10 +11,13 @@ export default function BeerList() {
   }, []);
 
   return (
-    <div key="beer__list">
+    <Box
+      key="beer__list"
+      sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+    >
       {beers.map((beer) => (
-        <Beer beer={beer} key={beer.Id} activeLinks={true} />
+        <BeerCard beer={beer} key={beer.Id} activeLinks={true} />
       ))}
-    </div>
+    </Box>
   );
 }

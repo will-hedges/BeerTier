@@ -19,7 +19,6 @@ namespace BeerTier.Models
         [Required]
         public DateTime CreateDateTime { get; set; }
 
-        public Beer Beer { get; set; }
         public UserProfile UserProfile { get; set; }
     }
 }

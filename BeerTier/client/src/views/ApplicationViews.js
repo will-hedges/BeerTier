@@ -4,6 +4,7 @@ import BeerList from "../components/BeerList";
 import Hello from "../components/Hello";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import BeerDetailsPage from "../pages/BeerDetailsPage";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -13,7 +14,8 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route index element={<Hello />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="beer" index element={<BeerList />} />
+          <Route path="beer" element={<BeerList />} />
+          <Route path="beer/:id" element={<BeerDetailsPage />} />
           <Route
             path="/beer/me"
             element={isLoggedIn ? <Hello /> : <Navigate to="/login" />}
