@@ -22,7 +22,6 @@ export default function BreweryDropdown({ breweryId, setBreweryId }) {
         value={breweryId}
         label="Brewery name *"
         onChange={handleChange}
-        margin="normal"
       >
         {breweries.map((brewery) => (
           <MenuItem value={brewery.id} key={`brewery--${brewery.id}`}>

@@ -1,40 +1,39 @@
-using BeerTier.Models;
+﻿using BeerTier.Models;
 using BeerTier.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BeerTier.Repositories
 {
-    public class BreweryRepository : BaseRepository, IBreweryRepository
+    public class StyleRepository : BaseRepository, IStyleRepository
     {
-        public BreweryRepository(IConfiguration configuration)
+        public StyleRepository(IConfiguration configuration)
             : base(configuration) { }
 
-        public List<Brewery> GetAll()
+        public List<Style> GetAll()
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT Id, [Name] FROM Brewery";
+                    cmd.CommandText = "SELECT Id, [Name] FROM Style";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        List<Brewery> breweries = new List<Brewery>();
+                        List<Style> styles = new List<Style>();
                         while (reader.Read())
                         {
-                            breweries.Add(
-                                new Brewery()
+                            styles.Add(
+                                new Style()
                                 {
                                     Id = DbUtils.GetInt(reader, "Id"),
                                     Name = DbUtils.GetString(reader, "Name")
                                 }
                             );
                         }
-                        return breweries;
+                        return styles;
                     }
                 }
             }

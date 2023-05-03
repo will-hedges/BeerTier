@@ -3,14 +3,15 @@ import { useNavigate } from "react-router";
 import { Box, Button, Link, TextField } from "@mui/material";
 
 import BreweryDropdown from "../components/BreweryDropdown";
+import StyleCheckboxes from "../components/StyleCheckboxes";
 
 export default function NewBeerPage({ beer }) {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   // breweryId will be an integer but setting to 0 will not render the label correctly
-  const [breweryId, setBreweryId] = useState(null);
-  const [styles, setStyles] = useState([]);
+  const [breweryId, setBreweryId] = useState("");
+  const [checkedStyles, setCheckedStyles] = useState([]);
   const [content, setContent] = useState("");
   const [imageLocation, setImageLocation] = useState("");
 
@@ -22,7 +23,7 @@ export default function NewBeerPage({ beer }) {
     if (beer) {
       setName(beer.name);
       setBreweryId(beer.breweryId);
-      setStyles(beer.styles);
+      setCheckedStyles(beer.styles);
       setContent(beer.content);
       setImageLocation(beer.imageLocation);
     }
@@ -48,7 +49,6 @@ export default function NewBeerPage({ beer }) {
               required
               label="Beer name"
               onChange={(e) => setName(e.target.value)}
-              margin="normal"
             />
           </div>
           <div>
@@ -57,22 +57,22 @@ export default function NewBeerPage({ beer }) {
               setBreweryId={setBreweryId}
             />
           </div>
-          <div>placeholder for style selector(s)</div>
+          <div>
+            <StyleCheckboxes
+              checkedStyles={checkedStyles}
+              setCheckedStyles={setCheckedStyles}
+            />
+          </div>
           <div>
             <TextField
               label="Content"
               placeholder="Did you like or dislike this beer? Would you recommend it to others?"
               multiline
               rows={5}
-              margin="normal"
             />
           </div>
           <div>
-            <TextField
-              label="Image URL"
-              margin="normal"
-              placeholder="http://example.com"
-            />
+            <TextField label="Image URL" placeholder="http://example.com" />
           </div>
           <div>
             <Button variant="contained" type="submit" onClick={submitForm}>
