@@ -3,6 +3,11 @@ import { useParams } from "react-router";
 
 import { Box, Link, Typography } from "@mui/material";
 
+import BreweryLink from "../components/BreweryLink";
+import Comment from "../components/Comment";
+import StyleLink from "../components/StyleLink";
+import UserProfileLink from "../components/UserProfileLink";
+
 import { getBeerById } from "../modules/beerManager";
 
 export default function BeerDetailsPage() {
@@ -22,33 +27,22 @@ export default function BeerDetailsPage() {
   return (
     <Box sx={{ px: "2rem", py: "2rem" }}>
       {beer.styles.map((style) => (
-        <>
-          <Link underline="hover" sx={{ mr: "1rem" }}>
-            #{style.name}
-          </Link>
-        </>
+        <StyleLink style={style} />
       ))}
       <Typography variant="h3">{beer.name}</Typography>
-      <Box></Box>
-      <Link href={`/brewery/${beer.brewery.id}`} variant="h4" underline="hover">
-        {beer.brewery.name}
-      </Link>
+      <BreweryLink brewery={beer.brewery} />
       <Typography variant="subtitle1">
-        posted by{" "}
-        <Link href={`/userProfile/${beer.userProfile.id}`} underline="hover">
-          {beer.userProfile.displayName}
-        </Link>{" "}
-        on {beer.createDateTime}
+        posted by <UserProfileLink userProfile={beer.userProfile} /> on{" "}
+        {beer.createDateTime}
       </Typography>
-      <Typography variant="body1">{beer.content}</Typography>
-      <Box>
+      <Typography variant="body1" sx={{ maxWidth: "750px", my: "1rem" }}>
+        {beer.content}
+      </Typography>
+      <Box sx={{ maxWidth: "500px" }}>
         <Typography variant="h5">Comments</Typography>
         <Box>
           {beer.comments.map((comment) => (
-            <Typography variant="body2">
-              {comment.userProfile.displayName} said "{comment.content}" on{" "}
-              {comment.createDateTime}
-            </Typography>
+            <Comment key={`comment--${comment.id}`} comment={comment} />
           ))}
         </Box>
       </Box>
