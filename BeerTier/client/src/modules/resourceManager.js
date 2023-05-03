@@ -1,7 +1,7 @@
-export const getAll = (resource) => {
-  const apiUrl = `/api/${resource}`;
+export const getAll = (controller) => {
+  const apiUrl = `/api/${controller}`;
 
-  return fetch(`/api/${resource}`, {
+  return fetch(`/api/${controller}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -17,8 +17,8 @@ export const getAll = (resource) => {
   });
 };
 
-export const getById = (resource, id) => {
-  const apiUrl = `/api/${resource}/${id}`;
+export const getById = (controller, id) => {
+  const apiUrl = `/api/${controller}/${id}`;
 
   return fetch(apiUrl, {
     method: "GET",
