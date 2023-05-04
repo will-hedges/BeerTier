@@ -120,10 +120,10 @@ function ResponsiveAppBar({ isLoggedIn, userProfile }) {
             >
               <HamburgerMenuLink text="Beers" href="/beer" />
               {isLoggedIn && (
-                <>
+                <div>
                   <HamburgerMenuLink text="My Beers" href="/beer/me" />
                   <HamburgerMenuLink text="New Beer" href="/beer/new" />
-                </>
+                </div>
               )}
             </Menu>
           </Box>

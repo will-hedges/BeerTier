@@ -3,7 +3,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Link,
   Typography,
 } from "@mui/material";
 
@@ -13,11 +12,7 @@ import UserProfileLink from "./UserProfileLink";
 
 export default function Beer({ beer }) {
   return (
-    <Card
-      className="beer__card"
-      key={`beer-${beer.id}`}
-      sx={{ mx: "1rem", maxWidth: "500px" }}
-    >
+    <Card className="beer__card" sx={{ mx: "1rem", maxWidth: "50%" }}>
       <CardActionArea href={`beer/${beer.id}`}>
         <CardContent>
           <Typography variant="h4">{beer.name}</Typography>
@@ -27,12 +22,15 @@ export default function Beer({ beer }) {
               return (
                 <StyleLink
                   style={style}
-                  key={`beer-${beer.id}--style-${style.name}`}
+                  key={`beer--${beer.id}-style--${style.name}`}
                 />
               );
             })}
           </Box>
-          <p>{beer.content.slice(0, 100)} ...</p>
+          {
+            // beer.content can be null, so only show it if it exists
+            beer.content && <p>{beer.content.slice(0, 100)} ...</p>
+          }
           <Typography variant="subtitle2">
             posted by <UserProfileLink userProfile={beer.userProfile} /> on{" "}
             {beer.createDateTime}

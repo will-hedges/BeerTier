@@ -8,7 +8,7 @@ import Comment from "../components/Comment";
 import StyleLink from "../components/StyleLink";
 import UserProfileLink from "../components/UserProfileLink";
 
-import { getBeerById } from "../modules/beerManager";
+import { getById } from "../modules/resourceManager";
 
 export default function BeerDetailsPage() {
   const [beer, setBeer] = useState(null);
@@ -17,7 +17,7 @@ export default function BeerDetailsPage() {
   id = parseInt(id);
 
   useEffect(() => {
-    getBeerById(id).then(setBeer);
+    getById("beer", id).then(setBeer);
   }, [id]);
 
   if (!beer) {
@@ -27,7 +27,7 @@ export default function BeerDetailsPage() {
   return (
     <Box sx={{ px: "2rem", py: "2rem" }}>
       {beer.styles.map((style) => (
-        <StyleLink style={style} />
+        <StyleLink key={`beer-${beer.id}--style-${style.id}`} style={style} />
       ))}
       <Typography variant="h3">{beer.name}</Typography>
       <BreweryLink brewery={beer.brewery} />
