@@ -29,7 +29,7 @@ export default function NewBeerPage() {
         setBreweryId(beer.brewery.id);
         // beer.styles is a List<Style>, so we need to get all the StyleIds for the state
         const styleIdArray = [];
-        for (const style in beer.styles) {
+        for (const style of beer.styles) {
           styleIdArray.push(style.id);
         }
         setCheckedStyleIds(styleIdArray);

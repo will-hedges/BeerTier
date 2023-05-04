@@ -37,15 +37,22 @@ export default function StyleCheckboxes({
       <FormLabel>Style(s): (at least 1 required)</FormLabel>
       {/* TODO this needs GRID badly, or should be in a Drawer */}
       <FormGroup>
-        {styles.map((style) => (
-          <FormControlLabel
-            key={`style--${style.id}`}
-            label={style.name}
-            control={
-              <Checkbox value={style.id} onChange={handleCheckboxChange} />
-            }
-          />
-        ))}
+        {styles.map((style) => {
+          const alreadyChecked = checkedStyleIds.includes(style.id);
+          return (
+            <FormControlLabel
+              key={`style--${style.id}`}
+              label={style.name}
+              control={
+                <Checkbox
+                  value={style.id}
+                  onChange={handleCheckboxChange}
+                  checked={alreadyChecked}
+                />
+              }
+            />
+          );
+        })}
       </FormGroup>
     </Box>
   );
