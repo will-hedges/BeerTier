@@ -2,6 +2,7 @@
 using BeerTier.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,6 +33,7 @@ namespace BeerTier.Repositories
 	                        LEFT JOIN UserProfile up ON up.Id = b.UserProfileId
 	                        LEFT JOIN BeerStyle bs ON bs.BeerId = b.Id
 	                        LEFT JOIN Style s ON s.Id = bs.StyleId
+                        ORDER BY b.CreateDateTime DESC
                         ";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -49,8 +51,11 @@ namespace BeerTier.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "Id"),
                                     Name = DbUtils.GetString(reader, "BeerName"),
-                                    Content = DbUtils.GetString(reader, "Content"),
-                                    ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                    Content = DbUtils.GetNullableString(reader, "Content"),
+                                    ImageLocation = DbUtils.GetNullableString(
+                                        reader,
+                                        "ImageLocation"
+                                    ),
                                     CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                                     Brewery = new Brewery()
                                     {
@@ -128,8 +133,11 @@ namespace BeerTier.Repositories
                                 {
                                     Id = id,
                                     Name = DbUtils.GetString(reader, "BeerName"),
-                                    Content = DbUtils.GetString(reader, "BeerContent"),
-                                    ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                    Content = DbUtils.GetNullableString(reader, "BeerContent"),
+                                    ImageLocation = DbUtils.GetNullableString(
+                                        reader,
+                                        "ImageLocation"
+                                    ),
                                     CreateDateTime = DbUtils.GetDateTime(
                                         reader,
                                         "BeerCreateDateTime"
@@ -167,31 +175,43 @@ namespace BeerTier.Repositories
                                     }
                                 );
                             }
+
                             // same with comments
-                            int commentId = DbUtils.GetInt(reader, "CommentId");
-                            Comment comment = beer.Comments.FirstOrDefault(c => c.Id == commentId);
-                            if (comment == null)
+                            // NOTE on new Beer classes, no Comments will exist
+                            //  so we will handle NULL column values for CommentId here
+                            int? commentId = DbUtils.GetNullableInt(reader, "CommentId");
+
+                            if (commentId != null)
                             {
-                                beer.Comments.Add(
-                                    new Comment()
-                                    {
-                                        Id = DbUtils.GetInt(reader, "CommentId"),
-                                        Content = DbUtils.GetString(reader, "CommentContent"),
-                                        CreateDateTime = DbUtils.GetDateTime(
-                                            reader,
-                                            "CommentCreateDateTime"
-                                        ),
-                                        UserProfile = new UserProfile()
-                                        {
-                                            Id = DbUtils.GetInt(reader, "CommenterId"),
-                                            IsAdmin = DbUtils.GetBool(reader, "CommenterIsAdmin"),
-                                            DisplayName = DbUtils.GetString(
-                                                reader,
-                                                "CommenterDisplayName"
-                                            )
-                                        }
-                                    }
+                                Comment comment = beer.Comments.FirstOrDefault(
+                                    c => c.Id == commentId
                                 );
+                                if (comment == null)
+                                {
+                                    beer.Comments.Add(
+                                        new Comment()
+                                        {
+                                            Id = DbUtils.GetInt(reader, "CommentId"),
+                                            Content = DbUtils.GetString(reader, "CommentContent"),
+                                            CreateDateTime = DbUtils.GetDateTime(
+                                                reader,
+                                                "CommentCreateDateTime"
+                                            ),
+                                            UserProfile = new UserProfile()
+                                            {
+                                                Id = DbUtils.GetInt(reader, "CommenterId"),
+                                                IsAdmin = DbUtils.GetBool(
+                                                    reader,
+                                                    "CommenterIsAdmin"
+                                                ),
+                                                DisplayName = DbUtils.GetString(
+                                                    reader,
+                                                    "CommenterDisplayName"
+                                                )
+                                            }
+                                        }
+                                    );
+                                }
                             }
                         }
                         return beer;
@@ -209,10 +229,10 @@ namespace BeerTier.Repositories
                 {
                     cmd.CommandText =
                         @"
-                        INSERT INTO Beer ([Name], Content, ImageLocation, BreweryId, CreateDateTime)
+                        INSERT INTO Beer ([Name], Content, ImageLocation, BreweryId, CreateDateTime, UserProfileId)
                         OUTPUT INSERTED.ID
                         VALUES
-                            (@Name, @Content, @ImageLocation, @BreweryId, @CreateDateTime)
+                            (@Name, @Content, @ImageLocation, @BreweryId, @CreateDateTime, @UserProfileId)
                         ";
 
                     DbUtils.AddParameter(cmd, "@Name", beer.Name);
@@ -220,6 +240,7 @@ namespace BeerTier.Repositories
                     DbUtils.AddParameter(cmd, "@ImageLocation", beer.ImageLocation);
                     DbUtils.AddParameter(cmd, "@BreweryId", beer.BreweryId);
                     DbUtils.AddParameter(cmd, "@CreateDateTime", beer.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", beer.UserProfileId);
 
                     beer.Id = (int)cmd.ExecuteScalar();
                 }
