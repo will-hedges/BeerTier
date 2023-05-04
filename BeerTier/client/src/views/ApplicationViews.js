@@ -7,7 +7,7 @@ import RegisterPage from "../pages/RegisterPage";
 import BeerDetailsPage from "../pages/BeerDetailsPage";
 import NewBeerPage from "../pages/NewBeerPage";
 
-export default function ApplicationViews({ isLoggedIn }) {
+export default function ApplicationViews({ isLoggedIn, userProfile }) {
   return (
     <main>
       <Routes>
@@ -15,8 +15,14 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route index element={<Hello />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="beer" element={<AllBeersPage />} />
-          <Route path="beer/:id" element={<BeerDetailsPage />} />
+          <Route
+            path="beer"
+            element={<AllBeersPage userProfile={userProfile} />}
+          />
+          <Route
+            path="beer/:id"
+            element={<BeerDetailsPage userProfile={userProfile} />}
+          />
           <Route
             path="/beer/new"
             element={isLoggedIn ? <NewBeerPage /> : <Navigate to="/login" />}

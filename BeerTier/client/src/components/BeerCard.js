@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -10,7 +11,7 @@ import BreweryLink from "./BreweryLink";
 import StyleLink from "./StyleLink";
 import UserProfileLink from "./UserProfileLink";
 
-export default function Beer({ beer }) {
+export default function Beer({ beer, userProfile }) {
   return (
     <Card className="beer__card" sx={{ mx: "1rem", maxWidth: "50%" }}>
       <CardActionArea href={`beer/${beer.id}`}>
@@ -29,12 +30,23 @@ export default function Beer({ beer }) {
           </Box>
           {
             // beer.content can be null, so only show it if it exists
-            beer.content && <p>{beer.content.slice(0, 100)} ...</p>
+            beer.content && (
+              <p>
+                {beer.content.slice(0, 100)}{" "}
+                {beer.content.length > 100 && "..."}
+              </p>
+            )
           }
           <Typography variant="subtitle2">
             posted by <UserProfileLink userProfile={beer.userProfile} /> on{" "}
             {beer.createDateTime}
           </Typography>
+          {(userProfile.id === beer.userProfile.id || userProfile.isAdmin) && (
+            <>
+              <Button>Edit</Button>
+              <Button>Delete</Button>
+            </>
+          )}
         </CardContent>
       </CardActionArea>
     </Card>

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import BeerCard from "../components/BeerCard";
 import { getAll } from "../modules/resourceManager";
 
-export default function BeerList() {
+export default function AllBeersPage({ userProfile }) {
   const [beers, setBeers] = useState([]);
 
   useEffect(() => {
@@ -16,7 +16,11 @@ export default function BeerList() {
       sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
     >
       {beers.map((beer) => (
-        <BeerCard beer={beer} key={`beer--${beer.id}`} activeLinks={true} />
+        <BeerCard
+          beer={beer}
+          key={`beer--${beer.id}`}
+          userProfile={userProfile}
+        />
       ))}
     </Box>
   );
