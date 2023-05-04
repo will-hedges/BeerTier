@@ -5,7 +5,7 @@ import Hello from "../pages/Hello";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import BeerDetailsPage from "../pages/BeerDetailsPage";
-import NewBeerPage from "../pages/NewBeerPage";
+import BeerForm from "../pages/BeerForm";
 
 export default function ApplicationViews({ isLoggedIn, userProfile }) {
   return (
@@ -25,7 +25,11 @@ export default function ApplicationViews({ isLoggedIn, userProfile }) {
           />
           <Route
             path="/beer/new"
-            element={isLoggedIn ? <NewBeerPage /> : <Navigate to="/login" />}
+            element={isLoggedIn ? <BeerForm /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/beer/edit/:beerId"
+            element={isLoggedIn ? <BeerForm /> : <Navigate to="/login" />}
           />
           <Route
             path="/beer/me"
