@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import BeerCard from "./BeerCard";
+import BeerCard from "../components/BeerCard";
 import { getAll } from "../modules/resourceManager";
 
 export default function BeerList() {
