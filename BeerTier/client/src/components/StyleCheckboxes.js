@@ -34,7 +34,7 @@ export default function StyleCheckboxes({
 
   return (
     <Box sx={{ my: "1rem" }}>
-      <FormLabel>Style(s): (at least 1 required)</FormLabel>
+      <FormLabel>Style (at least 1 required)</FormLabel>
       {/* TODO this needs GRID badly, or should be in a Drawer */}
       <FormGroup>
         {styles.map((style) => {

@@ -97,7 +97,7 @@ export default function NewBeerPage() {
               label="Beer name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              sx={{ my: "1rem" }}
+              sx={{ my: "1rem", width: "350px" }}
             />
           </div>
           <div>
@@ -118,8 +118,8 @@ export default function NewBeerPage() {
               placeholder="Did you like or dislike this beer? Would you recommend it to others?"
               value={content}
               multiline
-              rows={5}
-              sx={{ my: "1rem" }}
+              rows={10}
+              sx={{ my: "1rem", width: "500px" }}
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
@@ -128,7 +128,7 @@ export default function NewBeerPage() {
               label="Image URL"
               placeholder="http://example.com"
               value={imageLocation}
-              sx={{ my: "1rem" }}
+              sx={{ my: "1rem", width: "500px" }}
               onChange={(e) => setImageLocation(e.target.value)}
             />
           </div>
