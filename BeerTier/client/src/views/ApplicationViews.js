@@ -24,15 +24,15 @@ export default function ApplicationViews({ isLoggedIn, userProfile }) {
             element={<BeerDetailsPage userProfile={userProfile} />}
           />
           <Route
-            path="/beer/new"
+            path="beer/new"
             element={isLoggedIn ? <BeerForm /> : <Navigate to="/login" />}
           />
           <Route
-            path="/beer/edit/:beerId"
+            path="beer/edit/:beerId"
             element={isLoggedIn ? <BeerForm /> : <Navigate to="/login" />}
           />
           <Route
-            path="/beer/me"
+            path="beer/me"
             element={isLoggedIn ? <Hello /> : <Navigate to="/login" />}
           />
         </Route>

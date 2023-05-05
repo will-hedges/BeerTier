@@ -3,7 +3,12 @@ import { useNavigate, useParams } from "react-router";
 import { Box, Button, TextField } from "@mui/material";
 
 import { getToken } from "../modules/authManager";
-import { getById, handleApiRequest } from "../modules/resourceManager";
+import {
+  getById,
+  handleApiRequest,
+  postObjToApi,
+  putObjToApi,
+} from "../modules/resourceManager";
 
 import BreweryDropdown from "../components/BreweryDropdown";
 import StyleCheckboxes from "../components/StyleCheckboxes";
@@ -11,7 +16,8 @@ import StyleCheckboxes from "../components/StyleCheckboxes";
 export default function NewBeerPage() {
   const navigate = useNavigate();
 
-  const { beerId } = useParams();
+  let { beerId } = useParams();
+  beerId = parseInt(beerId);
 
   const [name, setName] = useState("");
   // breweryId will be an integer but setting to 0 will not render the label correctly
@@ -42,7 +48,19 @@ export default function NewBeerPage() {
   // TODO set up useEffects for each state that needs validation
   //  can use the 'error' prop
 
-  const postAllBeerStyles = (beerId) => {
+  const deleteBeerStylesWithBeerId = (beerId) => {
+    const apiUrl = `/api/beerStyle/${beerId}`;
+    return getToken().then((token) => {
+      return fetch(apiUrl, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    });
+  };
+
+  const postAllBeerStylesToApi = (beerId) => {
     return getToken().then((token) => {
       const promises = [];
       for (const styleId of checkedStyleIds) {
@@ -65,29 +83,6 @@ export default function NewBeerPage() {
     });
   };
 
-  // const deleteAllBeerStyles = (beerId) => {
-  //   // send a request that deletes all the beer styles with a FK of beerId
-  //   return getToken().then((token) => {
-  //     const apiUrl = `/api/beerStyle/${beerId}`;
-  //     return fetch(apiUrl, {
-  //       method: "DELETE",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     }).then((res) => {
-  //       if (res.ok) {
-  //         return res;
-  //       } else if (res.status === 401) {
-  //         throw new Error("Unauthorized");
-  //       } else {
-  //         throw new Error(
-  //           `An error occurred while sending a DELETE to ${apiUrl}`
-  //         );
-  //       }
-  //     });
-  //   });
-  // };
-
   const submitForm = (e) => {
     e.preventDefault();
     const beerObj = {
@@ -99,8 +94,8 @@ export default function NewBeerPage() {
 
     // if it's new beer, send a POST
     if (!beerId) {
-      handleApiRequest("POST", "beer", beerObj).then((newBeerObj) => {
-        postAllBeerStyles(newBeerObj.id);
+      postObjToApi("beer", beerObj).then((newBeerObj) => {
+        postAllBeerStylesToApi(newBeerObj.id);
       });
     } else {
       /*
@@ -110,11 +105,9 @@ export default function NewBeerPage() {
               and POST the BeerStyles again
       */
       beerObj.id = beerId;
-      handleApiRequest("DELETE", "beerStyle", {}, beerId)
-        .then(() => handleApiRequest("PUT", "beer", beerObj, beerId))
-        .then(() => {
-          postAllBeerStyles(beerId);
-        });
+      deleteBeerStylesWithBeerId(beerId)
+        .then(putObjToApi("beer", beerObj, beerId))
+        .then(postAllBeerStylesToApi(beerId));
     }
   };
 
