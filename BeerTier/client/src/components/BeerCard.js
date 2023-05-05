@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 
 import BreweryLink from "./BreweryLink";
+import DeleteButton from "./DeleteButton";
+import EditButton from "./EditButton";
 import StyleLink from "./StyleLink";
 import UserProfileLink from "./UserProfileLink";
 
@@ -69,32 +71,12 @@ export default function BeerCard({ beerObj, userProfile }) {
           </Typography>
           {(userProfile.id === beerObj.userProfile.id ||
             userProfile.isAdmin) && (
-            // stopPropagation and preventDefault are here to stop tacking on the Card href to the route
-            // otherwise you end up with like 'beer/beer/edit/22'
-            // see https://stackoverflow.com/a/61594128/13615436 for more info
             <>
-              <Button
-                onMouseDown={(evt) => {
-                  evt.stopPropagation();
-                }}
-                onClick={(evt) => {
-                  evt.stopPropagation();
-                  evt.preventDefault();
-                  navigate(`/beer/edit/${beerObj.id}`);
-                }}
-              >
-                Edit
-              </Button>
-              <Button
-                onMouseDown={(evt) => evt.stopPropagation()}
-                onClick={(evt) => {
-                  evt.stopPropagation();
-                  evt.preventDefault();
-                  handleDeleteBeer(beerObj.id);
-                }}
-              >
-                Delete
-              </Button>
+              <EditButton controller="beer" editObjId={beerObj.id} />
+              <DeleteButton
+                deleteObjId={beerObj.id}
+                deleteHandler={handleDeleteBeer}
+              />
             </>
           )}
         </CardContent>
