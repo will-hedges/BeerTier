@@ -38,9 +38,8 @@ export const getById = (controller, id) => {
   });
 };
 
-export const postToApi = (resource, obj) => {
+export const postObjToApi = (resource, obj) => {
   const apiUrl = `/api/${resource}`;
-
   return getToken().then((token) => {
     return fetch(apiUrl, {
       method: "POST",
@@ -57,6 +56,30 @@ export const postToApi = (resource, obj) => {
       } else {
         throw new Error(
           `An unknown error happened while sending a POST to ${apiUrl}`
+        );
+      }
+    });
+  });
+};
+
+export const putObjToApi = (resource, obj, id) => {
+  const apiUrl = `/api/${resource}/${id}`;
+  return getToken().then((token) => {
+    return fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    }).then((res) => {
+      if (res.ok) {
+        return res;
+      } else if (res.status === 401) {
+        throw new Error("Unauthorized");
+      } else {
+        throw new Error(
+          `An unknown error happened while sending a PUT to ${apiUrl}`
         );
       }
     });

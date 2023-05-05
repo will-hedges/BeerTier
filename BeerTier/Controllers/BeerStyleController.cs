@@ -21,7 +21,15 @@ namespace BeerTier.Controllers
         public IActionResult Post(BeerStyle beerStyle)
         {
             _beerStyleRepository.Add(beerStyle);
-            return Ok(beerStyle);
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpDelete("{beerId}")]
+        public IActionResult Delete(int beerId)
+        {
+            _beerStyleRepository.Delete(beerId);
+            return NoContent();
         }
     }
 }

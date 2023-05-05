@@ -14,7 +14,7 @@ export default function BreweryDropdown({ breweryId, setBreweryId }) {
   }, []);
 
   return (
-    <FormControl sx={{ minWidth: "228px", my: "1rem" }}>
+    <FormControl sx={{ width: "350px", my: "1rem" }}>
       <InputLabel id="brewery__dropdown__label">Brewery name *</InputLabel>
       <Select
         labelId="brewery__dropdown__label"

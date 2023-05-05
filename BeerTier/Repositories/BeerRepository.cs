@@ -162,18 +162,20 @@ namespace BeerTier.Repositories
                             }
 
                             // don't want to make a new style obj for every style attached to a beer
-                            //  just add the style to the list
+                            // just add the style to the list
                             int styleId = DbUtils.GetInt(reader, "StyleId");
-                            Style style = beer.Styles.FirstOrDefault(s => s.Id == styleId);
-                            if (style == null)
                             {
-                                beer.Styles.Add(
-                                    new Style
-                                    {
-                                        Id = DbUtils.GetInt(reader, "StyleId"),
-                                        Name = DbUtils.GetString(reader, "StyleName")
-                                    }
-                                );
+                                Style style = beer.Styles.FirstOrDefault(s => s.Id == styleId);
+                                if (style == null)
+                                {
+                                    beer.Styles.Add(
+                                        new Style
+                                        {
+                                            Id = DbUtils.GetInt(reader, "StyleId"),
+                                            Name = DbUtils.GetString(reader, "StyleName")
+                                        }
+                                    );
+                                }
                             }
 
                             // same with comments
@@ -243,6 +245,35 @@ namespace BeerTier.Repositories
                     DbUtils.AddParameter(cmd, "@UserProfileId", beer.UserProfileId);
 
                     beer.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Beer beer)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"
+                        UPDATE Beer
+                        SET 
+                            [Name] = @Name,
+                            Content = @Content,
+                            ImageLocation = @ImageLocation,
+                            BreweryId = @BreweryId
+                        WHERE Id = @Id
+                        ";
+
+                    DbUtils.AddParameter(cmd, "@Id", beer.Id);
+                    DbUtils.AddParameter(cmd, "@Name", beer.Name);
+                    DbUtils.AddParameter(cmd, "@Content", beer.Content);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", beer.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@BreweryId", beer.BreweryId);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

@@ -38,7 +38,7 @@ function App() {
   return (
     <Router>
       <AppBar isLoggedIn={isLoggedIn} userProfile={userProfile} />
-      <ApplicationViews isLoggedIn={isLoggedIn} />
+      <ApplicationViews isLoggedIn={isLoggedIn} userProfile={userProfile} />
     </Router>
   );
 }
