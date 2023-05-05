@@ -38,17 +38,48 @@ export const getById = (controller, id) => {
   });
 };
 
-export const postToApi = (resource, obj) => {
-  const apiUrl = `/api/${resource}`;
+// export const postToApi = (resource, obj) => {
+//   const apiUrl = `/api/${resource}`;
+
+//   return getToken().then((token) => {
+//     return fetch(apiUrl, {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(obj),
+//     }).then((res) => {
+//       if (res.ok) {
+//         return res.json();
+//       } else if (res.status === 401) {
+//         throw new Error("Unauthorized");
+//       } else {
+//         throw new Error(
+//           `An unknown error happened while sending a POST to ${apiUrl}`
+//         );
+//       }
+//     });
+//   });
+// };
+
+export const handleApiRequest = (
+  fetchMethod,
+  resource,
+  bodyObj = {},
+  id = null
+) => {
+  const apiUrl = `/api/${resource}/${id}`;
+  fetchMethod = fetchMethod.trim().toUpperCase();
 
   return getToken().then((token) => {
     return fetch(apiUrl, {
-      method: "POST",
+      method: fetchMethod,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(obj),
+      body: JSON.stringify(bodyObj),
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -56,7 +87,7 @@ export const postToApi = (resource, obj) => {
         throw new Error("Unauthorized");
       } else {
         throw new Error(
-          `An unknown error happened while sending a POST to ${apiUrl}`
+          `An unknown error happened while sending a ${fetchMethod} request to ${apiUrl}`
         );
       }
     });

@@ -59,6 +59,18 @@ namespace BeerTier.Controllers
             return CreatedAtAction("Get", new { id = beer.Id }, beer);
         }
 
+        [Authorize]
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Beer beer)
+        {
+            if (id != beer.Id)
+            {
+                return BadRequest();
+            }
+            _beerRepository.Update(beer);
+            return NoContent();
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { Box, Button, TextField } from "@mui/material";
 
 import { getToken } from "../modules/authManager";
-import { getById, postToApi } from "../modules/resourceManager";
+import { getById, handleApiRequest } from "../modules/resourceManager";
 
 import BreweryDropdown from "../components/BreweryDropdown";
 import StyleCheckboxes from "../components/StyleCheckboxes";
@@ -42,6 +42,52 @@ export default function NewBeerPage() {
   // TODO set up useEffects for each state that needs validation
   //  can use the 'error' prop
 
+  const postAllBeerStyles = (beerId) => {
+    return getToken().then((token) => {
+      const promises = [];
+      for (const styleId of checkedStyleIds) {
+        const beerStyleObj = {
+          beerId,
+          styleId,
+        };
+        promises.push(
+          fetch("/api/beerStyle", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(beerStyleObj),
+          })
+        );
+      }
+      Promise.all(promises).then(navigate(`/beer/${beerId}`));
+    });
+  };
+
+  // const deleteAllBeerStyles = (beerId) => {
+  //   // send a request that deletes all the beer styles with a FK of beerId
+  //   return getToken().then((token) => {
+  //     const apiUrl = `/api/beerStyle/${beerId}`;
+  //     return fetch(apiUrl, {
+  //       method: "DELETE",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     }).then((res) => {
+  //       if (res.ok) {
+  //         return res;
+  //       } else if (res.status === 401) {
+  //         throw new Error("Unauthorized");
+  //       } else {
+  //         throw new Error(
+  //           `An error occurred while sending a DELETE to ${apiUrl}`
+  //         );
+  //       }
+  //     });
+  //   });
+  // };
+
   const submitForm = (e) => {
     e.preventDefault();
     const beerObj = {
@@ -52,32 +98,23 @@ export default function NewBeerPage() {
     };
 
     // if it's new beer, send a POST
-    if (!beerObj.id) {
-      postToApi("beer", beerObj).then((newBeerObj) => {
-        // use Promise.all() for all the beerStyles
-        return getToken().then((token) => {
-          const promises = [];
-          for (const styleId of checkedStyleIds) {
-            const beerStyleObj = {
-              beerId: newBeerObj.id,
-              styleId: styleId,
-            };
-            promises.push(
-              fetch("/api/beerStyle", {
-                method: "POST",
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(beerStyleObj),
-              })
-            );
-          }
-          Promise.all(promises).then(navigate(`/beer/${newBeerObj.id}`));
-        });
+    if (!beerId) {
+      handleApiRequest("POST", "beer", beerObj).then((newBeerObj) => {
+        postAllBeerStyles(newBeerObj.id);
       });
     } else {
-      // if it's not new (i.e. edited) send a PUT
+      /*
+        if it's not new (i.e. edited), tack the id back on to the new object
+          delete all the BeerStyles associated with this beer
+            send a PUT request to the API to update the beer
+              and POST the BeerStyles again
+      */
+      beerObj.id = beerId;
+      handleApiRequest("DELETE", "beerStyle", {}, beerId)
+        .then(() => handleApiRequest("PUT", "beer", beerObj, beerId))
+        .then(() => {
+          postAllBeerStyles(beerId);
+        });
     }
   };
 

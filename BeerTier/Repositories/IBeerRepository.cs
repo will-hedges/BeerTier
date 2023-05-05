@@ -8,5 +8,6 @@ namespace BeerTier.Repositories
         List<Beer> GetAll();
         Beer GetById(int id);
         void Add(Beer beer);
+        void Update(Beer beer);
     }
 }

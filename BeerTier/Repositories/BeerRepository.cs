@@ -246,5 +246,32 @@ namespace BeerTier.Repositories
                 }
             }
         }
+
+        public void Update(Beer beer)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"
+                        UPDATE Beer
+                        SET 
+                            [Name] = @Name,
+                            Content = @Content,
+                            ImageLocation = @ImageLocation,
+                            BreweryId = @BreweryId
+                        ";
+
+                    DbUtils.AddParameter(cmd, "@Name", beer.Name);
+                    DbUtils.AddParameter(cmd, "@Content", beer.Content);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", beer.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@BreweryId", beer.BreweryId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
