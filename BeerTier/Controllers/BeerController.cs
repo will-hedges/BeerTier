@@ -71,6 +71,18 @@ namespace BeerTier.Controllers
             return NoContent();
         }
 
+        [Authorize]
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id, Beer beer)
+        {
+            if (id != beer.Id)
+            {
+                return BadRequest();
+            }
+            _beerRepository.Delete(beer);
+            return NoContent();
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

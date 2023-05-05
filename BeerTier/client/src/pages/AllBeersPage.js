@@ -15,10 +15,10 @@ export default function AllBeersPage({ userProfile }) {
       key="beer__list"
       sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
     >
-      {beers.map((beer) => (
+      {beers.map((beerObj) => (
         <BeerCard
-          beer={beer}
-          key={`beer--${beer.id}`}
+          beerObj={beerObj}
+          key={`beer--${beerObj.id}`}
           userProfile={userProfile}
         />
       ))}

@@ -277,5 +277,19 @@ namespace BeerTier.Repositories
                 }
             }
         }
+
+        public void Delete(Beer beer)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Beer WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@Id", beer.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
