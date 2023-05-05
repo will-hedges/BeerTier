@@ -3,12 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { Box, Button, TextField } from "@mui/material";
 
 import { getToken } from "../modules/authManager";
-import {
-  getById,
-  handleApiRequest,
-  postObjToApi,
-  putObjToApi,
-} from "../modules/resourceManager";
+import { getById, postObjToApi, putObjToApi } from "../modules/resourceManager";
 
 import BreweryDropdown from "../components/BreweryDropdown";
 import StyleCheckboxes from "../components/StyleCheckboxes";
