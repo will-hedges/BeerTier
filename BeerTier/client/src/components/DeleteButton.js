@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 
-export default function DeleteButton({ deleteObjId, deleteHandler }) {
+export default function DeleteButton({ deleteCallback, objRef }) {
   return (
     // stopPropagation and preventDefault are here to stop tacking on the Card href to the route
     // otherwise you end up with like 'beer/beer/edit/22'
@@ -10,7 +10,7 @@ export default function DeleteButton({ deleteObjId, deleteHandler }) {
       onClick={(evt) => {
         evt.stopPropagation();
         evt.preventDefault();
-        deleteHandler(deleteObjId);
+        deleteCallback(objRef);
       }}
     >
       Delete
