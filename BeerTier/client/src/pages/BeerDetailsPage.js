@@ -8,9 +8,11 @@ import Comment from "../components/Comment";
 import StyleLink from "../components/StyleLink";
 import UserProfileLink from "../components/UserProfileLink";
 
-import { getById } from "../modules/resourceManager";
+import { deleteBeer, getById } from "../modules/resourceManager";
+import EditButton from "../components/EditButton";
+import DeleteButton from "../components/DeleteButton";
 
-export default function BeerDetailsPage() {
+export default function BeerDetailsPage({ userProfile }) {
   const [beer, setBeer] = useState(null);
 
   let { id } = useParams();
@@ -38,6 +40,14 @@ export default function BeerDetailsPage() {
       <Typography variant="body1" sx={{ maxWidth: "750px", my: "1rem" }}>
         {beer.content}
       </Typography>
+      <Box>
+        {(userProfile.id === beer.userProfile.id || userProfile.isAdmin) && (
+          <>
+            <EditButton controller="beer" objRef={beer} />
+            <DeleteButton deleteCallback={deleteBeer} objRef={beer} />
+          </>
+        )}
+      </Box>
       <Box sx={{ maxWidth: "500px" }}>
         <Typography variant="h5">Comments</Typography>
         <Box>

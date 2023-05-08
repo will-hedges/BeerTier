@@ -3,7 +3,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { Box, CircularProgress } from "@mui/material";
 
-import logo from "./logo.svg";
 import "./App.css";
 import AppBar from "./AppBar";
 import ApplicationViews from "./views/ApplicationViews";
