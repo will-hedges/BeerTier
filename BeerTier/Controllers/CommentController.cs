@@ -25,7 +25,7 @@ namespace BeerTier.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             Comment comment = _commentRepository.GetById(id);
@@ -48,7 +48,7 @@ namespace BeerTier.Controllers
         }
 
         [Authorize]
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Put(int id, Comment comment)
         {
             if (id != comment.Id)
@@ -60,7 +60,7 @@ namespace BeerTier.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id, Comment comment)
         {
             if (id != comment.Id)

@@ -39,14 +39,14 @@ export default function BeerDetailsPage() {
       <Typography variant="h3">{beer.name}</Typography>
       <BreweryLink brewery={beer.brewery} />
       <Typography variant="subtitle1">
-        posted by <UserProfileLink userProfile={beer.userProfile} /> on{" "}
+        posted by <UserProfileLink userProfile={beer?.userProfile} /> on{" "}
         {beer.createDateTime}
       </Typography>
       <Typography variant="body1" sx={{ maxWidth: "750px", my: "1rem" }}>
         {beer.content}
       </Typography>
       <Box>
-        {(userProfile.id === beer.userProfile.id || userProfile.isAdmin) && (
+        {(userProfile?.id === beer?.userProfile.id || userProfile?.isAdmin) && (
           <>
             <EditButton controller="beer" objRef={beer} />
             <DeleteButton deleteCallback={deleteBeer} objRef={beer} />

@@ -25,7 +25,7 @@ export default function CommentBox({
           postObjToApi("comment", {
             beerId: beerId,
             content: commentContent,
-          }).then(window.location.reload(true));
+          }).then(() => window.location.reload(true));
         }}
       >
         Submit
