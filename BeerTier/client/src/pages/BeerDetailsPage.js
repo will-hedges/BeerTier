@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import { Box, Typography } from "@mui/material";
@@ -11,12 +11,15 @@ import UserProfileLink from "../components/UserProfileLink";
 import { deleteBeer, getById } from "../modules/resourceManager";
 import EditButton from "../components/EditButton";
 import DeleteButton from "../components/DeleteButton";
+import UserContext from "../UserContext";
 
-export default function BeerDetailsPage({ userProfile }) {
+export default function BeerDetailsPage() {
   const [beer, setBeer] = useState(null);
 
   let { id } = useParams();
   id = parseInt(id);
+
+  const { userProfile } = useContext(UserContext);
 
   useEffect(() => {
     getById("beer", id).then(setBeer);
