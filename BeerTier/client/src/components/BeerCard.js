@@ -10,7 +10,7 @@ import {
 
 import BreweryLink from "./BreweryLink";
 import DeleteButton from "./DeleteButton";
-import EditButton from "./EditButton";
+import { EditButton } from "./EditButton";
 import StyleLink from "./StyleLink";
 import UserProfileLink from "./UserProfileLink";
 

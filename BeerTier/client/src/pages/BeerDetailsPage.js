@@ -10,7 +10,7 @@ import UserProfileLink from "../components/UserProfileLink";
 
 import { deleteBeer, getById } from "../modules/resourceManager";
 import CommentBox from "../components/CommentBox";
-import EditButton from "../components/EditButton";
+import { EditButton } from "../components/EditButton";
 import DeleteButton from "../components/DeleteButton";
 import UserContext from "../UserContext";
 
@@ -54,7 +54,9 @@ export default function BeerDetailsPage() {
         )}
       </Box>
       <Box sx={{ maxWidth: "500px" }}>
-        <Typography variant="h5">Comments</Typography>
+        <Typography variant="h5" sx={{ m: "0.5rem" }}>
+          Comments
+        </Typography>
         <Box>
           {beer.comments.map((comment) => (
             <Comment key={`comment--${comment.id}`} comment={comment} />
