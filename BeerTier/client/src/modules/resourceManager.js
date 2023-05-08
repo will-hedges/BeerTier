@@ -126,6 +126,9 @@ export const deleteBeer = (beerObj) => {
     "Are you sure you want to delete this beer?"
   );
   if (confirmed) {
-    deleteFromApi("beer", trimmedBeerObj).then(window.location.reload(true));
+    // re-route to /beer
+    deleteFromApi("beer", trimmedBeerObj).then(
+      (window.location.href = "/beer")
+    );
   }
 };
