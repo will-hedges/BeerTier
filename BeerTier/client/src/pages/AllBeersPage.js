@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import BeerCard from "../components/BeerCard";
 import { getAll } from "../modules/resourceManager";
-import UserContext from "../UserContext";
 
 export default function AllBeersPage() {
   const [beers, setBeers] = useState([]);
-
-  const { userProfile } = useContext(UserContext);
 
   useEffect(() => {
     getAll("beer").then((beers) => setBeers(beers));
