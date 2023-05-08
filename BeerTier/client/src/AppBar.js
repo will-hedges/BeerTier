@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router";
 
 import {
@@ -19,12 +19,15 @@ import BeerIcon from "@mui/icons-material/SportsBar";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { logout } from "./modules/authManager";
+import UserContext from "./UserContext";
 
-function ResponsiveAppBar({ isLoggedIn, userProfile }) {
+function ResponsiveAppBar({ isLoggedIn }) {
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const { userProfile } = useContext(UserContext);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

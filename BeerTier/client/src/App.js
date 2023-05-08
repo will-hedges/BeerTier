@@ -4,9 +4,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 
 import "./App.css";
+
 import AppBar from "./AppBar";
 import ApplicationViews from "./views/ApplicationViews";
 import { onLoginStatusChange, me } from "./modules/authManager";
+import UserContext from "./UserContext";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -35,10 +37,12 @@ function App() {
     );
   }
   return (
-    <Router>
-      <AppBar isLoggedIn={isLoggedIn} userProfile={userProfile} />
-      <ApplicationViews isLoggedIn={isLoggedIn} userProfile={userProfile} />
-    </Router>
+    <UserContext.Provider value={{ userProfile }}>
+      <Router>
+        <AppBar isLoggedIn={isLoggedIn} />
+        <ApplicationViews isLoggedIn={isLoggedIn} />
+      </Router>
+    </UserContext.Provider>
   );
 }
 

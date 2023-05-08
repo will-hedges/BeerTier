@@ -13,11 +13,14 @@ import StyleLink from "./StyleLink";
 import UserProfileLink from "./UserProfileLink";
 
 import { deleteBeer } from "../modules/resourceManager";
+import { useContext } from "react";
+import UserContext from "../UserContext";
 
-export default function BeerCard({ beerObj, userProfile }) {
+export default function BeerCard({ beerObj }) {
+  const { userProfile } = useContext(UserContext);
   return (
     <Card className="beer__card" sx={{ mx: "1rem", maxWidth: "50%" }}>
-      <CardActionArea href={`beer/${beerObj.id}`}>
+      <CardActionArea href={`${beerObj.id}`}>
         <CardContent>
           <Typography variant="h4">{beerObj.name}</Typography>
           <BreweryLink brewery={beerObj.brewery} />
