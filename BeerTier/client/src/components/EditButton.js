@@ -12,6 +12,7 @@ export function EditButton({ controller, objRef }) {
   // see https://stackoverflow.com/a/61594128/13615436 for more info
   return (
     <Button
+      sx={{ mx: "0.5rem" }}
       onMouseDown={(evt) => {
         evt.stopPropagation();
       }}
@@ -34,6 +35,7 @@ export function EditIconButton({ controller, objRef }) {
   return (
     <IconButton
       size="small"
+      sx={{ mx: "0.25rem" }}
       onMouseDown={(evt) => {
         evt.stopPropagation();
       }}

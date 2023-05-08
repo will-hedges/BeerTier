@@ -9,6 +9,7 @@ export function DeleteButton({ deleteCallback, objRef }) {
     // otherwise you end up with like 'beer/beer/edit/22'
     // see https://stackoverflow.com/a/61594128/13615436 for more info
     <Button
+      sx={{ mx: "0.5rem" }}
       onMouseDown={(evt) => evt.stopPropagation()}
       onClick={(evt) => {
         evt.stopPropagation();
@@ -28,6 +29,7 @@ export function DeleteIconButton({ deleteCallback, objRef }) {
     // see https://stackoverflow.com/a/61594128/13615436 for more info
     <IconButton
       size="small"
+      sx={{ mx: "0.25rem" }}
       onMouseDown={(evt) => evt.stopPropagation()}
       onClick={(evt) => {
         evt.stopPropagation();
