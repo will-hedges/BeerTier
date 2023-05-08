@@ -5,6 +5,7 @@ import UserProfileLink from "./UserProfileLink";
 import { DeleteIconButton } from "./DeleteButton";
 import { EditIconButton } from "./EditButton";
 
+import { deleteComment } from "../modules/resourceManager";
 import UserContext from "../UserContext";
 
 export default function Comment({ comment }) {
@@ -26,10 +27,11 @@ export default function Comment({ comment }) {
           {comment.createDateTime}{" "}
           <UserProfileLink userProfile={comment.userProfile} /> said
         </Typography>
-        {(userProfile.id === comment.userProfile.id || userProfile.isAdmin) && (
+        {(userProfile?.id === comment.userProfile.id ||
+          userProfile?.isAdmin) && (
           <Box>
             <EditIconButton />
-            <DeleteIconButton />
+            <DeleteIconButton deleteCallback={deleteComment} objRef={comment} />
           </Box>
         )}
       </Box>

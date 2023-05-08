@@ -132,3 +132,23 @@ export const deleteBeer = (beerObj) => {
     );
   }
 };
+
+export const deleteComment = (commentObj) => {
+  const trimmedCommentObj = {
+    id: commentObj.id,
+    beerId: commentObj.beerId,
+    content: commentObj.content,
+    userProfileId: commentObj.userProfile.id,
+    createDateTime: commentObj.createDateTime,
+  };
+
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this comment?"
+  );
+
+  if (confirmed) {
+    deleteFromApi("comment", trimmedCommentObj).then(
+      window.location.reload(true)
+    );
+  }
+};
