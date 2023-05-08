@@ -11,7 +11,7 @@ import UserProfileLink from "../components/UserProfileLink";
 import { deleteBeer, getById } from "../modules/resourceManager";
 import CommentBox from "../components/CommentBox";
 import { EditButton } from "../components/EditButton";
-import DeleteButton from "../components/DeleteButton";
+import { DeleteButton } from "../components/DeleteButton";
 import UserContext from "../UserContext";
 
 export default function BeerDetailsPage() {
@@ -42,17 +42,15 @@ export default function BeerDetailsPage() {
         posted by <UserProfileLink userProfile={beer?.userProfile} /> on{" "}
         {beer.createDateTime}
       </Typography>
-      <Typography variant="body1" sx={{ maxWidth: "750px", my: "1rem" }}>
+      {(userProfile?.id === beer?.userProfile.id || userProfile?.isAdmin) && (
+        <Box sx={{ m: "0.5rem" }}>
+          <EditButton controller="beer" objRef={beer} />
+          <DeleteButton deleteCallback={deleteBeer} objRef={beer} />
+        </Box>
+      )}
+      <Typography variant="body1" sx={{ maxWidth: "750px", mb: "1rem" }}>
         {beer.content}
       </Typography>
-      <Box>
-        {(userProfile?.id === beer?.userProfile.id || userProfile?.isAdmin) && (
-          <>
-            <EditButton controller="beer" objRef={beer} />
-            <DeleteButton deleteCallback={deleteBeer} objRef={beer} />
-          </>
-        )}
-      </Box>
       <Box sx={{ maxWidth: "500px" }}>
         <Typography variant="h5" sx={{ m: "0.5rem" }}>
           Comments
