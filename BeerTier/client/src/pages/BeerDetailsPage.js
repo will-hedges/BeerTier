@@ -9,12 +9,14 @@ import StyleLink from "../components/StyleLink";
 import UserProfileLink from "../components/UserProfileLink";
 
 import { deleteBeer, getById } from "../modules/resourceManager";
+import CommentBox from "../components/CommentBox";
 import EditButton from "../components/EditButton";
 import DeleteButton from "../components/DeleteButton";
 import UserContext from "../UserContext";
 
 export default function BeerDetailsPage() {
   const [beer, setBeer] = useState(null);
+  const [commentContent, setCommentContent] = useState("");
 
   let { id } = useParams();
   id = parseInt(id);
@@ -59,6 +61,11 @@ export default function BeerDetailsPage() {
           ))}
         </Box>
       </Box>
+      <CommentBox
+        beerId={beer.id}
+        commentContent={commentContent}
+        setCommentContent={setCommentContent}
+      />
     </Box>
   );
 }

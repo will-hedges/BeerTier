@@ -25,6 +25,18 @@ namespace BeerTier.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public IActionResult GetById(int id)
+        {
+            Comment comment = _commentRepository.GetById(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            return Ok(comment);
+        }
+
+        [Authorize]
         [HttpPost]
         public IActionResult Post(Comment comment)
         {
@@ -32,7 +44,7 @@ namespace BeerTier.Controllers
             comment.UserProfileId = userProfile.Id;
             comment.CreateDateTime = DateTime.Now;
             _commentRepository.Add(comment);
-            return NoContent();
+            return CreatedAtAction("GetById", new { id = comment.Id }, comment);
         }
 
         [Authorize]

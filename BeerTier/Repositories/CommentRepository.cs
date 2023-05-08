@@ -10,12 +10,45 @@ namespace BeerTier.Repositories
         public CommentRepository(IConfiguration configuration)
             : base(configuration) { }
 
+        public Comment GetById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"
+                        SELECT Id, BeerId, Content, UserProfileId, CreateDateTime 
+                        FROM Comment
+                        WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Comment
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                BeerId = DbUtils.GetInt(reader, "BeerId"),
+                                Content = DbUtils.GetString(reader, "Content"),
+                                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                                CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime")
+                            };
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+
         public void Add(Comment comment)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (SqlCommand cmd = new SqlCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText =
                         @"
