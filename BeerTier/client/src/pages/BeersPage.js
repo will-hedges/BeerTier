@@ -3,11 +3,11 @@ import Box from "@mui/material/Box";
 import BeerCard from "../components/BeerCard";
 import { getAll } from "../modules/apiManager";
 
-export default function AllBeersPage() {
+export default function BeersPage() {
   const [beers, setBeers] = useState([]);
 
   useEffect(() => {
-    getAll("beer").then((beers) => setBeers(beers));
+    getAll("beer").then(setBeers);
   }, []);
 
   return (
