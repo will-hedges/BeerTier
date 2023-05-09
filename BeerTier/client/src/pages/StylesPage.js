@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, IconButton, List, TextField, Typography } from "@mui/material/";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import Style from "../components/Style";
 
 import { getAll, postObjToApi } from "../modules/apiManager";
+import UserContext from "../UserContext";
 
 export default function StylesPage() {
   const [styles, setStyles] = useState([]);
   const [newStyleName, setNewStyleName] = useState("");
   const [validNewStyle, setValidNewStyle] = useState(true);
+
+  const { userProfile } = useContext(UserContext);
 
   useEffect(() => {
     getAll("style").then(setStyles);
@@ -23,6 +26,46 @@ export default function StylesPage() {
       setValidNewStyle(true);
     }
   }, [styles, newStyleName]);
+
+  function NewStyleBox() {
+    if (validNewStyle) {
+      return (
+        <>
+          {newStyleName ? (
+            <IconButton onClick={handleNewStyleSubmit}>
+              <AddCircleIcon />
+            </IconButton>
+          ) : (
+            <IconButton disabled>
+              <AddCircleIcon />
+            </IconButton>
+          )}
+          <TextField
+            label="New Style"
+            variant="standard"
+            sx={{ ml: "0.2rem" }}
+            onChange={(evt) => setNewStyleName(evt.target.value)}
+          />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <IconButton disabled>
+            <AddCircleIcon color="error" />
+          </IconButton>
+          <TextField
+            error
+            helperText="This style already exists!"
+            label="New Style"
+            variant="standard"
+            sx={{ ml: "0.2rem" }}
+            onChange={(evt) => setNewStyleName(evt.target.value)}
+          />
+        </>
+      );
+    }
+  }
 
   const handleNewStyleSubmit = () => {
     postObjToApi("style", { name: newStyleName }).then(
@@ -40,39 +83,40 @@ export default function StylesPage() {
         }}
       >
         {/* TODO GO BACK AND FIX THIS NESTED TERNARY */}
-        {validNewStyle ? (
-          <>
-            {newStyleName ? (
-              <IconButton onClick={handleNewStyleSubmit}>
-                <AddCircleIcon />
-              </IconButton>
-            ) : (
+        {userProfile &&
+          (validNewStyle ? (
+            <>
+              {newStyleName ? (
+                <IconButton onClick={handleNewStyleSubmit}>
+                  <AddCircleIcon />
+                </IconButton>
+              ) : (
+                <IconButton disabled>
+                  <AddCircleIcon />
+                </IconButton>
+              )}
+              <TextField
+                label="New Style"
+                variant="standard"
+                sx={{ ml: "0.2rem" }}
+                onChange={(evt) => setNewStyleName(evt.target.value)}
+              />
+            </>
+          ) : (
+            <>
               <IconButton disabled>
-                <AddCircleIcon />
+                <AddCircleIcon color="error" />
               </IconButton>
-            )}
-            <TextField
-              label="New Style"
-              variant="standard"
-              sx={{ ml: "0.2rem" }}
-              onChange={(evt) => setNewStyleName(evt.target.value)}
-            />
-          </>
-        ) : (
-          <>
-            <IconButton disabled>
-              <AddCircleIcon color="error" />
-            </IconButton>
-            <TextField
-              error
-              helperText="This style already exists!"
-              label="New Style"
-              variant="standard"
-              sx={{ ml: "0.2rem" }}
-              onChange={(evt) => setNewStyleName(evt.target.value)}
-            />
-          </>
-        )}
+              <TextField
+                error
+                helperText="This style already exists!"
+                label="New Style"
+                variant="standard"
+                sx={{ ml: "0.2rem" }}
+                onChange={(evt) => setNewStyleName(evt.target.value)}
+              />
+            </>
+          ))}
       </Box>
       <List>
         {styles.map((style) => (

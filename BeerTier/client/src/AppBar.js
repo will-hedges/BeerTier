@@ -127,6 +127,7 @@ function ResponsiveAppBar({ isLoggedIn }) {
                   <HamburgerMenuLink text="New Beer" href="/beer/new" />
                 </div>
               )}
+              <HamburgerMenuLink text="Styles" href="/style" />
             </Menu>
           </Box>
           <BeerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -152,7 +153,6 @@ function ResponsiveAppBar({ isLoggedIn }) {
             <NavLinkButton text="Beers" href="/beer" />
             {isLoggedIn && <NavLinkButton text="New Beer" href="/beer/new" />}
             <NavLinkButton text="Styles" href="/style" />
-            {isLoggedIn && <NavLinkButton text="New Style" href="/style/new" />}
           </Box>
 
           {userProfile ? (
