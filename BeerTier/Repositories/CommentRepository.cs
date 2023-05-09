@@ -26,9 +26,10 @@ namespace BeerTier.Repositories
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
+                        Comment comment = null;
                         if (reader.Read())
                         {
-                            return new Comment
+                            comment = new Comment()
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 BeerId = DbUtils.GetInt(reader, "BeerId"),
@@ -37,7 +38,7 @@ namespace BeerTier.Repositories
                                 CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime")
                             };
                         }
-                        return null;
+                        return comment;
                     }
                 }
             }
