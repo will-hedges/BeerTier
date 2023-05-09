@@ -8,13 +8,15 @@ import Comment from "../components/Comment";
 import StyleLink from "../components/StyleLink";
 import UserProfileLink from "../components/UserProfileLink";
 
-import { deleteBeer, getById } from "../modules/resourceManager";
-import EditButton from "../components/EditButton";
-import DeleteButton from "../components/DeleteButton";
+import { deleteBeer, getById } from "../modules/apiManager";
+import CommentBox from "../components/CommentBox";
+import { EditButton } from "../components/EditButton";
+import { DeleteButton } from "../components/DeleteButton";
 import UserContext from "../UserContext";
 
 export default function BeerDetailsPage() {
   const [beer, setBeer] = useState(null);
+  const [commentContent, setCommentContent] = useState("");
 
   let { id } = useParams();
   id = parseInt(id);
@@ -37,28 +39,33 @@ export default function BeerDetailsPage() {
       <Typography variant="h3">{beer.name}</Typography>
       <BreweryLink brewery={beer.brewery} />
       <Typography variant="subtitle1">
-        posted by <UserProfileLink userProfile={beer.userProfile} /> on{" "}
+        posted by <UserProfileLink userProfile={beer?.userProfile} /> on{" "}
         {beer.createDateTime}
       </Typography>
-      <Typography variant="body1" sx={{ maxWidth: "750px", my: "1rem" }}>
+      {(userProfile?.id === beer?.userProfile.id || userProfile?.isAdmin) && (
+        <Box sx={{ m: "0.5rem" }}>
+          <EditButton controller="beer" objRef={beer} />
+          <DeleteButton deleteCallback={deleteBeer} objRef={beer} />
+        </Box>
+      )}
+      <Typography variant="body1" sx={{ maxWidth: "750px", mb: "1rem" }}>
         {beer.content}
       </Typography>
-      <Box>
-        {(userProfile.id === beer.userProfile.id || userProfile.isAdmin) && (
-          <>
-            <EditButton controller="beer" objRef={beer} />
-            <DeleteButton deleteCallback={deleteBeer} objRef={beer} />
-          </>
-        )}
-      </Box>
       <Box sx={{ maxWidth: "500px" }}>
-        <Typography variant="h5">Comments</Typography>
+        <Typography variant="h5" sx={{ m: "0.5rem" }}>
+          Comments
+        </Typography>
         <Box>
           {beer.comments.map((comment) => (
             <Comment key={`comment--${comment.id}`} comment={comment} />
           ))}
         </Box>
       </Box>
+      <CommentBox
+        beerId={beer.id}
+        commentContent={commentContent}
+        setCommentContent={setCommentContent}
+      />
     </Box>
   );
 }

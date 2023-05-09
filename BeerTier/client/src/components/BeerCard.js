@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 
 import BreweryLink from "./BreweryLink";
-import DeleteButton from "./DeleteButton";
-import EditButton from "./EditButton";
+import { DeleteButton } from "./DeleteButton";
+import { EditButton } from "./EditButton";
 import StyleLink from "./StyleLink";
 import UserProfileLink from "./UserProfileLink";
 
-import { deleteBeer } from "../modules/resourceManager";
+import { deleteBeer } from "../modules/apiManager";
 import UserContext from "../UserContext";
 
 export default function BeerCard({ beerObj }) {
@@ -46,11 +46,11 @@ export default function BeerCard({ beerObj }) {
             )
           }
           <Typography variant="subtitle2">
-            posted by <UserProfileLink userProfile={beerObj.userProfile} /> on{" "}
+            posted by <UserProfileLink userProfile={beerObj?.userProfile} /> on{" "}
             {beerObj.createDateTime}
           </Typography>
-          {(userProfile.id === beerObj.userProfile.id ||
-            userProfile.isAdmin) && (
+          {(userProfile?.id === beerObj?.userProfile.id ||
+            userProfile?.isAdmin) && (
             <>
               <EditButton controller="beer" objRef={beerObj} />
               <DeleteButton objRef={beerObj} deleteCallback={deleteBeer} />

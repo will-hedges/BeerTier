@@ -117,6 +117,7 @@ namespace BeerTier.Repositories
 	                        LEFT JOIN Comment com ON com.BeerId = b.Id
 	                        LEFT JOIN UserProfile cup ON cup.Id = com.UserProfileId
                         WHERE b.Id = @id
+                        ORDER BY CommentCreateDateTime DESC
                         ";
                     DbUtils.AddParameter(cmd, "@id", id);
 
@@ -194,6 +195,7 @@ namespace BeerTier.Repositories
                                         new Comment()
                                         {
                                             Id = DbUtils.GetInt(reader, "CommentId"),
+                                            BeerId = id,
                                             Content = DbUtils.GetString(reader, "CommentContent"),
                                             CreateDateTime = DbUtils.GetDateTime(
                                                 reader,

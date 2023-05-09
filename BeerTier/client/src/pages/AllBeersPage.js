@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import BeerCard from "../components/BeerCard";
-import { getAll } from "../modules/resourceManager";
+import { getAll } from "../modules/apiManager";
 
 export default function AllBeersPage() {
   const [beers, setBeers] = useState([]);

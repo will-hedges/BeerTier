@@ -38,8 +38,8 @@ export const getById = (controller, id) => {
   });
 };
 
-export const postObjToApi = (resource, obj) => {
-  const apiUrl = `/api/${resource}`;
+export const postObjToApi = (controller, obj) => {
+  const apiUrl = `/api/${controller}`;
   return getToken().then((token) => {
     return fetch(apiUrl, {
       method: "POST",
@@ -62,8 +62,8 @@ export const postObjToApi = (resource, obj) => {
   });
 };
 
-export const putObjToApi = (resource, obj, id) => {
-  const apiUrl = `/api/${resource}/${id}`;
+export const putObjToApi = (controller, obj, id) => {
+  const apiUrl = `/api/${controller}/${id}`;
   return getToken().then((token) => {
     return fetch(apiUrl, {
       method: "PUT",
@@ -86,8 +86,8 @@ export const putObjToApi = (resource, obj, id) => {
   });
 };
 
-export const deleteFromApi = (resource, obj) => {
-  const apiUrl = `/api/${resource}/${obj.id}`;
+export const deleteFromApi = (controller, obj) => {
+  const apiUrl = `/api/${controller}/${obj.id}`;
   return getToken().then((token) => {
     return fetch(apiUrl, {
       method: "DELETE",
@@ -129,6 +129,26 @@ export const deleteBeer = (beerObj) => {
     // re-route to /beer
     deleteFromApi("beer", trimmedBeerObj).then(
       (window.location.href = "/beer")
+    );
+  }
+};
+
+export const deleteComment = (commentObj) => {
+  const trimmedCommentObj = {
+    id: commentObj.id,
+    beerId: commentObj.beerId,
+    content: commentObj.content,
+    userProfileId: commentObj.userProfile.id,
+    createDateTime: commentObj.createDateTime,
+  };
+
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this comment?"
+  );
+
+  if (confirmed) {
+    deleteFromApi("comment", trimmedCommentObj).then(
+      window.location.reload(true)
     );
   }
 };
