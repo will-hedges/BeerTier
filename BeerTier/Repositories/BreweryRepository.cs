@@ -19,7 +19,10 @@ namespace BeerTier.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText =
-                        "SELECT Id, [Name], Address, ImageLocation, UserProfileId, CreateDateTime FROM Brewery";
+                        @"
+                        SELECT Id, [Name], Address, ImageLocation, UserProfileId, CreateDateTime 
+                        FROM Brewery
+                        ORDER BY [Name]";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {

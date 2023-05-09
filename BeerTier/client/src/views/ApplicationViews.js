@@ -1,13 +1,14 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import BeersPage from "../pages/BeersPage";
 import Hello from "../pages/Hello";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import BeersPage from "../pages/BeersPage";
 import BeerDetailsPage from "../pages/BeerDetailsPage";
 import BeerForm from "../pages/BeerForm";
-import StylesPage from "../pages/StylesPage";
 import BreweriesPage from "../pages/BreweriesPage";
+import BreweryDetailsPage from "../pages/BreweryDetailsPage";
+import StylesPage from "../pages/StylesPage";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -28,6 +29,7 @@ export default function ApplicationViews({ isLoggedIn }) {
             element={isLoggedIn ? <BeerForm /> : <Navigate to="/login" />}
           />
           <Route path="brewery" element={<BreweriesPage />} />
+          <Route path="brewery/:id" element={<BreweryDetailsPage />} />
           <Route path="style" element={<StylesPage />} />
         </Route>
       </Routes>

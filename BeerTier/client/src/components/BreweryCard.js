@@ -1,15 +1,9 @@
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 
 export default function BreweryCard({ breweryObj }) {
   return (
     <Card className="brewery__card" sx={{ maxWidth: "25%" }}>
-      <CardActionArea>
+      <CardActionArea href={`/brewery/${breweryObj.id}`}>
         <CardContent>
           <Typography variant="h4" className="brewery__card__header">
             {breweryObj.name}
