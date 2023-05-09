@@ -19,7 +19,7 @@ namespace BeerTier.Repositories
                 {
                     cmd.CommandText =
                         @"
-                        SELECT Id, BeerId, Content, UserProfileId, CreateDateTime 
+                        SELECT BeerId, Content, UserProfileId, CreateDateTime 
                         FROM Comment
                         WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -31,7 +31,7 @@ namespace BeerTier.Repositories
                         {
                             comment = new Comment()
                             {
-                                Id = DbUtils.GetInt(reader, "Id"),
+                                Id = id,
                                 BeerId = DbUtils.GetInt(reader, "BeerId"),
                                 Content = DbUtils.GetString(reader, "Content"),
                                 UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
@@ -53,9 +53,11 @@ namespace BeerTier.Repositories
                 {
                     cmd.CommandText =
                         @"
-                        INSERT INTO Comment (BeerId, Content, UserProfileId, CreateDateTime)
+                        INSERT INTO Comment 
+                            (BeerId, Content, UserProfileId, CreateDateTime)
                         OUTPUT INSERTED.ID
-                        VALUES (@BeerId, @Content, @UserProfileId, @CreateDateTime)
+                        VALUES 
+                            (@BeerId, @Content, @UserProfileId, @CreateDateTime)
                         ";
 
                     DbUtils.AddParameter(cmd, "@BeerId", comment.BeerId);

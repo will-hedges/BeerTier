@@ -7,6 +7,7 @@ import RegisterPage from "../pages/RegisterPage";
 import BeerDetailsPage from "../pages/BeerDetailsPage";
 import BeerForm from "../pages/BeerForm";
 import StylesPage from "../pages/StylesPage";
+import BreweriesPage from "../pages/BreweriesPage";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -26,8 +27,8 @@ export default function ApplicationViews({ isLoggedIn }) {
             path="beer/edit/:beerId"
             element={isLoggedIn ? <BeerForm /> : <Navigate to="/login" />}
           />
+          <Route path="brewery" element={<BreweriesPage />} />
           <Route path="style" element={<StylesPage />} />
-          <Route path="style/new" element={<></>} />
         </Route>
       </Routes>
     </main>
