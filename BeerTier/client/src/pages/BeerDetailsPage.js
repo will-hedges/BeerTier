@@ -8,7 +8,7 @@ import Comment from "../components/Comment";
 import StyleLink from "../components/StyleLink";
 import UserProfileLink from "../components/UserProfileLink";
 
-import { deleteBeer, getById } from "../modules/resourceManager";
+import { deleteBeer, getById } from "../modules/apiManager";
 import CommentBox from "../components/CommentBox";
 import { EditButton } from "../components/EditButton";
 import { DeleteButton } from "../components/DeleteButton";

@@ -14,7 +14,7 @@ import { EditButton } from "./EditButton";
 import StyleLink from "./StyleLink";
 import UserProfileLink from "./UserProfileLink";
 
-import { deleteBeer } from "../modules/resourceManager";
+import { deleteBeer } from "../modules/apiManager";
 import UserContext from "../UserContext";
 
 export default function BeerCard({ beerObj }) {

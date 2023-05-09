@@ -6,7 +6,7 @@ import {
   FormGroup,
   FormLabel,
 } from "@mui/material";
-import { getAll } from "../modules/resourceManager";
+import { getAll } from "../modules/apiManager";
 
 export default function StyleCheckboxes({
   checkedStyleIds,

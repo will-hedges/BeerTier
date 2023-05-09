@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { getAll } from "../modules/resourceManager";
+import { getAll } from "../modules/apiManager";
 
 export default function BreweryDropdown({ breweryId, setBreweryId }) {
   const [breweries, setBreweries] = useState([]);

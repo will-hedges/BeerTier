@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
 
-import { postObjToApi } from "../modules/resourceManager";
+import { postObjToApi } from "../modules/apiManager";
 import UserContext from "../UserContext";
 
 export default function CommentBox({

@@ -27,22 +27,15 @@ export function EditButton({ controller, objRef }) {
   );
 }
 
-export function EditIconButton({ controller, objRef }) {
-  const navigate = useNavigate();
-  // stopPropagation and preventDefault are here to stop tacking on the Card href to the route
-  // otherwise you end up with like 'beer/beer/edit/22'
-  // see https://stackoverflow.com/a/61594128/13615436 for more info
+export function EditIconButton({ state, setter }) {
+  // since this is only meant to be used for comments, will not navigate to any other edit page for now, we want to edit the comment on the page
   return (
     <IconButton
       size="small"
       sx={{ mx: "0.25rem" }}
-      onMouseDown={(evt) => {
-        evt.stopPropagation();
-      }}
-      onClick={(evt) => {
-        evt.stopPropagation();
-        evt.preventDefault();
-        navigate(`/${controller}/edit/${objRef.id}`);
+      onClick={() => {
+        setter(!state);
+        console.log("editing...");
       }}
     >
       <EditIcon fontSize="small" />
