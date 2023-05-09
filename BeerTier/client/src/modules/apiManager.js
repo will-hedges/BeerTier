@@ -152,3 +152,12 @@ export const deleteComment = (commentObj) => {
     );
   }
 };
+
+export const deleteStyle = (styleObj) => {
+  const confirmed = window.confirm(
+    `Are you sure you want to delete the style "${styleObj.name}"?`
+  );
+  if (confirmed) {
+    deleteFromApi("style", styleObj).then(window.location.reload(true));
+  }
+};

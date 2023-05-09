@@ -28,14 +28,13 @@ export function EditButton({ controller, objRef }) {
 }
 
 export function EditIconButton({ state, setter }) {
-  // since this is only meant to be used for comments, will not navigate to any other edit page for now, we want to edit the comment on the page
+  // since this is only meant to be used for on-page edits, will not navigate to any other page for now, we want to edit the styles and comments on the page
   return (
     <IconButton
       size="small"
       sx={{ mx: "0.25rem" }}
       onClick={() => {
         setter(!state);
-        console.log("editing...");
       }}
     >
       <EditIcon fontSize="small" />
