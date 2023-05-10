@@ -8,7 +8,7 @@ import { getById, postObjToApi, putObjToApi } from "../modules/apiManager";
 import BreweryDropdown from "../components/BreweryDropdown";
 import StyleCheckboxes from "../components/StyleCheckboxes";
 
-export default function NewBeerPage() {
+export default function BeerForm() {
   const navigate = useNavigate();
 
   let { beerId } = useParams();
@@ -101,7 +101,7 @@ export default function NewBeerPage() {
       */
       beerObj.id = beerId;
       deleteBeerStylesWithBeerId(beerId)
-        .then(putObjToApi("beer", beerObj, beerId))
+        .then(putObjToApi("beer", beerObj))
         .then(postAllBeerStylesToApi(beerId));
     }
   };

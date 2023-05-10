@@ -121,7 +121,7 @@ namespace BeerTier.Repositories
                         @"
                         UPDATE Brewery
                         SET
-                            Name = @Name
+                            Name = @Name,
                             Address = @Address,
                             ImageLocation = @ImageLocation
                         WHERE

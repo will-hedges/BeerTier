@@ -27,7 +27,7 @@ export default function Comment({ comment }) {
       createDateTime: comment.createDateTime,
     };
 
-    putObjToApi("comment", editedCommentObj, comment.id).then(() =>
+    putObjToApi("comment", editedCommentObj).then(() =>
       window.location.reload(true)
     );
   };

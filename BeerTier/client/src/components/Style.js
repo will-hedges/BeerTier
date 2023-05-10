@@ -30,7 +30,7 @@ export default function Style({ style }) {
       id: style.id,
       name: editedStyleName,
     };
-    putObjToApi("style", editedStyleObj, style.id).then(() =>
+    putObjToApi("style", editedStyleObj).then(() =>
       window.location.reload(true)
     );
   };
@@ -39,13 +39,15 @@ export default function Style({ style }) {
     <Box sx={{ maxWidth: "300px" }}>
       <ListItem>
         {!editingStyle ? (
-          userProfile?.isAdmin && (
-            <>
-              <ListItemText primary={style.name} />
-              <EditIconButton state={editingStyle} setter={setEditingStyle} />
-              <DeleteIconButton deleteCallback={deleteStyle} objRef={style} />
-            </>
-          )
+          <>
+            <ListItemText primary={style.name} />
+            {userProfile?.isAdmin && (
+              <>
+                <EditIconButton state={editingStyle} setter={setEditingStyle} />
+                <DeleteIconButton deleteCallback={deleteStyle} objRef={style} />
+              </>
+            )}
+          </>
         ) : (
           <>
             <TextField

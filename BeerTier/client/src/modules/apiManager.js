@@ -62,8 +62,8 @@ export const postObjToApi = (controller, obj) => {
   });
 };
 
-export const putObjToApi = (controller, obj, id) => {
-  const apiUrl = `/api/${controller}/${id}`;
+export const putObjToApi = (controller, obj) => {
+  const apiUrl = `/api/${controller}/${obj.id}`;
   return getToken().then((token) => {
     return fetch(apiUrl, {
       method: "PUT",
@@ -129,6 +129,26 @@ export const deleteBeer = (beerObj) => {
     // re-route to /beer
     deleteFromApi("beer", trimmedBeerObj).then(
       (window.location.href = "/beer")
+    );
+  }
+};
+
+export const deleteBrewery = (breweryObj) => {
+  const trimmedBreweryObj = {
+    id: breweryObj.id,
+    name: breweryObj.name,
+    address: breweryObj.address,
+    imageLocation: breweryObj.imageLocation,
+    userProfileId: breweryObj.userProfileId,
+    createDateTime: breweryObj.createDateTime,
+  };
+
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this brewery?"
+  );
+  if (confirmed) {
+    deleteFromApi("brewery", trimmedBreweryObj).then(
+      (window.location.href = "/brewery")
     );
   }
 };

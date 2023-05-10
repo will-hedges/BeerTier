@@ -8,6 +8,7 @@ import BeerDetailsPage from "../pages/BeerDetailsPage";
 import BeerForm from "../pages/BeerForm";
 import BreweriesPage from "../pages/BreweriesPage";
 import BreweryDetailsPage from "../pages/BreweryDetailsPage";
+import BreweryForm from "../components/BreweryForm";
 import StylesPage from "../pages/StylesPage";
 
 export default function ApplicationViews({ isLoggedIn }) {
@@ -18,6 +19,8 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route index element={<Hello />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+
+          {/* beer CRUD routes */}
           <Route path="beer" element={<BeersPage />} />
           <Route
             path="beer/new"
@@ -28,8 +31,19 @@ export default function ApplicationViews({ isLoggedIn }) {
             path="beer/edit/:beerId"
             element={isLoggedIn ? <BeerForm /> : <Navigate to="/login" />}
           />
+
+          {/* brewery CRUD routes */}
           <Route path="brewery" element={<BreweriesPage />} />
+          <Route
+            path="brewery/new"
+            element={isLoggedIn ? <BreweryForm /> : <Navigate to="/login" />}
+          />
           <Route path="brewery/:id" element={<BreweryDetailsPage />} />
+          <Route
+            path="brewery/edit/:breweryId"
+            element={isLoggedIn ? <BreweryForm /> : <Navigate to="/login" />}
+          />
+
           <Route path="style" element={<StylesPage />} />
         </Route>
       </Routes>
