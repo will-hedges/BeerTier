@@ -16,7 +16,7 @@ namespace BeerTier.Models
 
         [DataType(DataType.Url)]
         [MaxLength(255)]
-        public int ImageLocation { get; set; }
+        public string ImageLocation { get; set; }
 
         [Required]
         public int UserProfileId { get; set; }

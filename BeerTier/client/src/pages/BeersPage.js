@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
+import { Box, Fab } from "@mui/material/";
+import AddIcon from "@mui/icons-material/Add";
 import BeerCard from "../components/BeerCard";
 import { getAll } from "../modules/apiManager";
 
 export default function BeersPage() {
+  const navigate = useNavigate();
   const [beers, setBeers] = useState([]);
 
   useEffect(() => {
@@ -11,13 +14,18 @@ export default function BeersPage() {
   }, []);
 
   return (
-    <Box
-      key="beer__list"
-      sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
-    >
-      {beers.map((beerObj) => (
-        <BeerCard beerObj={beerObj} key={`beer--${beerObj.id}`} />
-      ))}
-    </Box>
+    <>
+      <Fab onClick={() => navigate("/beer/new")} sx={{ m: 1 }}>
+        <AddIcon />
+      </Fab>
+      <Box
+        key="beer__list"
+        sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
+        {beers.map((beerObj) => (
+          <BeerCard beerObj={beerObj} key={`beer--${beerObj.id}`} />
+        ))}
+      </Box>
+    </>
   );
 }

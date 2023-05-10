@@ -122,11 +122,7 @@ function ResponsiveAppBar({ isLoggedIn }) {
               }}
             >
               <HamburgerMenuLink text="Beers" href="/beer" />
-              {isLoggedIn && (
-                <div>
-                  <HamburgerMenuLink text="New Beer" href="/beer/new" />
-                </div>
-              )}
+              <HamburgerMenuLink text="Breweries" href="/brewery" />
               <HamburgerMenuLink text="Styles" href="/style" />
             </Menu>
           </Box>
@@ -151,7 +147,7 @@ function ResponsiveAppBar({ isLoggedIn }) {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <NavLinkButton text="Beers" href="/beer" />
-            {isLoggedIn && <NavLinkButton text="New Beer" href="/beer/new" />}
+            <NavLinkButton text="Breweries" href="/brewery" />
             <NavLinkButton text="Styles" href="/style" />
           </Box>
 
