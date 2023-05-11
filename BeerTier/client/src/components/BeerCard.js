@@ -29,14 +29,15 @@ export default function BeerCard({ beerObj }) {
           <Typography variant="h4">{beerObj.name}</Typography>
           <BreweryLink brewery={beerObj.brewery} />
           <Box sx={{ display: "flex" }}>
-            {beerObj.styles.map((style) => {
-              return (
-                <StyleLink
-                  style={style}
-                  key={`beer--${beerObj.id}-style--${style.name}`}
-                />
-              );
-            })}
+            {beerObj.styles &&
+              beerObj.styles.map((style) => {
+                return (
+                  <StyleLink
+                    style={style}
+                    key={`beer--${beerObj.id}-style--${style.name}`}
+                  />
+                );
+              })}
           </Box>
           {
             // beer.content can be null, so only show it if it exists
