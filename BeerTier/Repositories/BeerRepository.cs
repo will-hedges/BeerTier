@@ -41,21 +41,23 @@ namespace BeerTier.Repositories
                         List<Beer> beers = new List<Beer>();
                         while (reader.Read())
                         {
+                            // currently, users cannot submit a new beer with no style, but there is nothing stopping an admin
+                            // from deleting a style that might be the only style on a beer, so we will allow the API to read
+                            // null values from BeerId
+
+                            // this woulb be a great opportunity to push to a "no style queue" or something like that for an admin to fix
+                            int? beerId = DbUtils.GetNullableInt(reader, "BeerId");
+                            Beer beer = beers.FirstOrDefault(b => b.Id == beerId);
                             // don't want to make a new Beer obj for every "style" attached to a beer
                             //  just add the style to the list
-                            int beerId = DbUtils.GetInt(reader, "BeerId");
-                            Beer beer = beers.FirstOrDefault(b => b.Id == beerId);
                             if (beer == null)
                             {
                                 beer = new Beer()
                                 {
                                     Id = DbUtils.GetInt(reader, "Id"),
                                     Name = DbUtils.GetString(reader, "BeerName"),
-                                    Content = DbUtils.GetNullableString(reader, "Content"),
-                                    ImageLocation = DbUtils.GetNullableString(
-                                        reader,
-                                        "ImageLocation"
-                                    ),
+                                    Content = DbUtils.GetString(reader, "Content"),
+                                    ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                                     CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                                     Brewery = new Brewery()
                                     {
@@ -134,11 +136,8 @@ namespace BeerTier.Repositories
                                 {
                                     Id = id,
                                     Name = DbUtils.GetString(reader, "BeerName"),
-                                    Content = DbUtils.GetNullableString(reader, "BeerContent"),
-                                    ImageLocation = DbUtils.GetNullableString(
-                                        reader,
-                                        "ImageLocation"
-                                    ),
+                                    Content = DbUtils.GetString(reader, "BeerContent"),
+                                    ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                                     CreateDateTime = DbUtils.GetDateTime(
                                         reader,
                                         "BeerCreateDateTime"
@@ -164,18 +163,21 @@ namespace BeerTier.Repositories
 
                             // don't want to make a new style obj for every style attached to a beer
                             // just add the style to the list
-                            int styleId = DbUtils.GetInt(reader, "StyleId");
+                            int? styleId = DbUtils.GetNullableInt(reader, "StyleId");
                             {
-                                Style style = beer.Styles.FirstOrDefault(s => s.Id == styleId);
-                                if (style == null)
+                                if (styleId != null)
                                 {
-                                    beer.Styles.Add(
-                                        new Style
-                                        {
-                                            Id = DbUtils.GetInt(reader, "StyleId"),
-                                            Name = DbUtils.GetString(reader, "StyleName")
-                                        }
-                                    );
+                                    Style style = beer.Styles.FirstOrDefault(s => s.Id == styleId);
+                                    if (style == null)
+                                    {
+                                        beer.Styles.Add(
+                                            new Style
+                                            {
+                                                Id = DbUtils.GetInt(reader, "StyleId"),
+                                                Name = DbUtils.GetString(reader, "StyleName")
+                                            }
+                                        );
+                                    }
                                 }
                             }
 

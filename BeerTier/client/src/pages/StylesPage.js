@@ -68,7 +68,7 @@ export default function StylesPage() {
   }
 
   const handleNewStyleSubmit = () => {
-    postObjToApi("style", { name: newStyleName }).then(
+    postObjToApi("style", { name: newStyleName }).then(() =>
       window.location.reload(true)
     );
   };
