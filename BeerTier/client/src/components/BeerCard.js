@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Box,
@@ -18,11 +19,12 @@ import { deleteBeer } from "../modules/apiManager";
 import UserContext from "../UserContext";
 
 export default function BeerCard({ beerObj }) {
+  const navigate = useNavigate();
   const { userProfile } = useContext(UserContext);
 
   return (
     <Card className="beer__card" sx={{ mx: "1rem", maxWidth: "50%" }}>
-      <CardActionArea href={`/beer/${beerObj.id}`}>
+      <CardActionArea onClick={() => navigate(`/beer/${beerObj.id}`)}>
         <CardContent>
           <Typography variant="h4">{beerObj.name}</Typography>
           <BreweryLink brewery={beerObj.brewery} />
